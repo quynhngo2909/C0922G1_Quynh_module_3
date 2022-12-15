@@ -1,71 +1,71 @@
-CREATE DATABASE IF NOT EXISTS product_management;
-USE product_management;
-CREATE TABLE SĐT (
-    SĐT_NHACC VARCHAR(12) PRIMARY KEY
+create database if not exists product_management;
+    use product_management;
+    create table sđt (
+            sđt_nhacc varchar(12) primary key
 );
 
-CREATE TABLE NHACC (
-    MA_NCC VARCHAR(6) PRIMARY KEY,
-    Ten_NCC VARCHAR(50),
-    Dia_Chi VARCHAR(50),
-    SĐT_NHACC VARCHAR(12),
-    FOREIGN KEY (SĐT_NHACC)
-        REFERENCES SĐT (SĐT_NHACC)
+    create table nhacc (
+            ma_ncc varchar(6) primary key,
+    ten_ncc varchar(50),
+    dia_chi varchar(50),
+    sđt_nhacc varchar(12),
+    foreign key (sđt_nhacc)
+    references sđt (sđt_nhacc)
 );
 
-CREATE TABLE DON_DH (
-    So_DH INT PRIMARY KEY,
-    Ngay_DH DATE,
-    MA_NCC VARCHAR(6),
-    FOREIGN KEY (MA_NCC)
-        REFERENCES NHACC (MA_NCC)
+    create table don_dh (
+            so_dh int primary key,
+            ngay_dh date,
+            ma_ncc varchar(6),
+    foreign key (ma_ncc)
+    references nhacc (ma_ncc)
 );
 
-CREATE TABLE VAT_TU (
-    MA_VTU VARCHAR(10) PRIMARY KEY,
-    Ten_VTU VARCHAR(50)
+    create table vat_tu (
+            ma_vtu varchar(10) primary key,
+    ten_vtu varchar(50)
 );
 
-CREATE TABLE CHI_TIET_DON_DAT_HANG (
-    So_DH INT,
-    MA_VTU VARCHAR(10),
-    PRIMARY KEY (So_DH , MA_VTU),
-    FOREIGN KEY (So_DH)
-        REFERENCES DON_DH (So_DH),
-    FOREIGN KEY (MA_VTU)
-        REFERENCES VAT_TU (MA_VTU)
+    create table chi_tiet_don_dat_hang (
+            so_dh int,
+            ma_vtu varchar(10),
+    primary key (so_dh , ma_vtu),
+    foreign key (so_dh)
+    references don_dh (so_dh),
+    foreign key (ma_vtu)
+    references vat_tu (ma_vtu)
 );
 
-CREATE TABLE PHIEU_XUAT (
-    So_PX INT PRIMARY KEY,
-    Ngay_Xuat DATE
+    create table phieu_xuat (
+            so_px int primary key,
+            ngay_xuat date
+    );
+
+    create table chi_tiet_phieu_xuat (
+            so_px int,
+            ma_vtu varchar(10),
+    dg_xuat varchar(100),
+    sl_xuat varchar(100),
+    primary key (so_px , ma_vtu),
+    foreign key (so_px)
+    references phieu_xuat (so_px),
+    foreign key (ma_vtu)
+    references vat_tu (ma_vtu)
 );
 
-CREATE TABLE CHI_TIET_PHIEU_XUAT (
-    So_PX INT,
-    MA_VTU VARCHAR(10),
-    DG_Xuat VARCHAR(100),
-    SL_Xuat VARCHAR(100),
-    PRIMARY KEY (So_PX , MA_VTU),
-    FOREIGN KEY (So_PX)
-        REFERENCES PHIEU_XUAT (So_PX),
-    FOREIGN KEY (MA_VTU)
-        REFERENCES VAT_TU (MA_VTU)
-);
+    create table phieu_nhap (
+            so_pn int primary key,
+            ngay_nhap date
+    );
 
-CREATE TABLE PHIEU_NHAP (
-    So_PN INT PRIMARY KEY,
-    Ngay_Nhap DATE
-);
-
-CREATE TABLE CHI_TIET_PHIEU_NHAP (
-    So_PN INT,
-    MA_VTU VARCHAR(10),
-    DG_Nhap VARCHAR(100),
-    SL_Nhap VARCHAR(100),
-    PRIMARY KEY (So_PN , MA_VTU),
-    FOREIGN KEY (So_PN)
-        REFERENCES PHIEU_NHAP (So_PN),
-    FOREIGN KEY (MA_VTU)
-        REFERENCES VAT_TU (MA_VTU)
+    create table chi_tiet_phieu_nhap (
+            so_pn int,
+            ma_vtu varchar(10),
+    dg_nhap varchar(100),
+    sl_nhap varchar(100),
+    primary key (so_pn , ma_vtu),
+    foreign key (so_pn)
+    references phieu_nhap (so_pn),
+    foreign key (ma_vtu)
+    references vat_tu (ma_vtu)
 );
