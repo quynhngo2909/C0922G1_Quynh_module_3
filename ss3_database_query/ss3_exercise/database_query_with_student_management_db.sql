@@ -18,18 +18,3 @@ from
 order by 
   M.mark desc, 
   S.student_name;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
