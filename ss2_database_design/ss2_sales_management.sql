@@ -1,36 +1,36 @@
 CREATE DATABASE IF NOT EXISTS quan_ly_ban_hang;
 USE quan_ly_ban_hang;
 CREATE TABLE customer (
-    cID INT PRIMARY KEY AUTO_INCREMENT,
-    cName VARCHAR(50),
-    cAge INT,
-    CHECK (cAge > 0)
+    c_id INT PRIMARY KEY AUTO_INCREMENT,
+    c_name VARCHAR(50),
+    c_age INT,
+    CHECK (c_age > 0)
 );
 
 CREATE TABLE `order` (
-    oID INT PRIMARY KEY AUTO_INCREMENT,
-    cID INT,
-    oDate DATE,
-    oTotalPrice FLOAT,
-    FOREIGN KEY (cID)
-        REFERENCES customer (cID),
-    CHECK (oTotalPrice > 0)
+    o_id INT PRIMARY KEY AUTO_INCREMENT,
+    c_id INT,
+    o_date DATE,
+    o_total_price FLOAT,
+    FOREIGN KEY (c_id)
+        REFERENCES customer (c_id),
+    CHECK (o_total_price > 0)
 );
 
 CREATE TABLE product (
-    pID INT PRIMARY KEY AUTO_INCREMENT,
-    pName VARCHAR(50),
-    pPrice FLOAT,
-    CHECK (pPrice > 0)
+    p_id INT PRIMARY KEY AUTO_INCREMENT,
+    p_name VARCHAR(50),
+    p_price FLOAT,
+    CHECK (p_price > 0)
 );
 
 CREATE TABLE order_detail (
-    oID INT,
-    pID INT,
-    odQty INT,
-    PRIMARY KEY (oID , pID),
-    FOREIGN KEY (oID)
-        REFERENCES `order` (oID),
-    FOREIGN KEY (pID)
-        REFERENCES product (pID)
+    o_id INT,
+    p_id INT,
+    od_qty INT,
+    PRIMARY KEY (o_id , p_id),
+    FOREIGN KEY (p_id)
+        REFERENCES `order` (o_id),
+    FOREIGN KEY (p_id)
+        REFERENCES product (p_id)
 );
