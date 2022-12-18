@@ -1,8 +1,4 @@
 use furama_database;
-delete from vi_tri
-	where ma_vi_tri in (1,2);
-alter table vi_tri auto_increment = 1;
-
 insert into vi_tri (ten_vi_tri)
 	values ('Quản Lý'), ('Nhân Viên');
     
