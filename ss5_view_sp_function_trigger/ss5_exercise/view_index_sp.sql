@@ -92,8 +92,7 @@ select * from products_ss5 where product_name = '1969 Dodge Charger' and product
 create view v_products as
 select product_code, product_name, product_price, product_status from products_ss5;
 
-create
-or replace view v_products as
+create or replace view v_products as
 select id, product_code, product_name, product_price, product_status from products_ss5;
 
 update v_products
