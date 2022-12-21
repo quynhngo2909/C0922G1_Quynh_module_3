@@ -79,9 +79,3 @@ kh.so_dien_thoai,
 kh.ngay_sinh,
 kh.dia_chi
 from khach_hang kh;
-
-
-
-
-
-
