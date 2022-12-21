@@ -7,8 +7,8 @@ select
 from
     nhan_vien nv
 where
-    left (substring_index(NV.ho_ten , ' ', -1), 1) in ( 'H', 'T', 'K');
--- cách kiểm tra số ký tự đối với tên có dấu
+    left (substring_index(NV.ho_ten , ' ', -1), 1) in ( 'H', 'T', 'K')
+    and char_length( nv.ho_ten) < 16;
 
 -- 3.  Hiển thị thông tin của tất cả khách hàng có độ tuổi từ 18 đến 50 tuổi và có địa chỉ ở “Đà Nẵng” hoặc “Quảng Trị”.
 select
