@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Simple Galary</title>
+    <link rel="stylesheet" href="../../../../Tài liệu/Bootstrap/bootstrap-5.3.0-alpha1-dist/css/bootstrap.css">
+    <style>
+        * {
+            font-family: "Times New Roman";
+            box-sizing: border-box;
+        }
+        .card:hover{
+            border: solid 1px black;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+<h3 style="font-weight: bolder;margin: 0.8em 0;">Responsive Image Gallery</h3>
+<h6 style="font-weight: bolder; margin: 0.8em 0;">Resize the browser window to see the effect.</h6>
+<div class="card-group">
+    <div class="card col-md-3 col-sm-6 px-0 text-center">
+            <a href="http://demo.codegym.vn/web/15/gallery/img_fjords.jpg" target="_blank">
+                <img class="card-img-top" src="http://demo.codegym.vn/web/15/gallery/img_fjords.jpg" alt="galary">
+            </a>
+            <div class="card-body">
+                <p class="card-text">Add a description of the image here</p>
+            </div>
+    </div>
+    <div class="card col-md-3 col-sm-6 px-0 text-center">
+            <a href="http://demo.codegym.vn/web/15/gallery/img_forest.jpg" target="_blank">
+                <img class="card-img-top" src="http://demo.codegym.vn/web/15/gallery/img_forest.jpg" alt="galary">
+            </a>
+            <div class="card-body">
+                <p class="card-text">Add a description of the image here</p>
+            </div>
+    </div>
+
+    <div class="card col-md-3 col-sm-6 px-0 text-center">
+            <a href="http://demo.codegym.vn/web/15/gallery/img_lights.jpg" target="_blank">
+                <img class="card-img-top" src="http://demo.codegym.vn/web/15/gallery/img_lights.jpg">
+            </a>
+            <div class="card-body">
+                <p class="card-text">Add a description of the image here</p>
+            </div>
+    </div>
+
+    <div class="card col-md-3 col-sm-6 px-0 text-center" >
+            <a href="http://demo.codegym.vn/web/15/gallery/img_mountains.jpg" target="_blank">
+                <img class="card-img-top" src="http://demo.codegym.vn/web/15/gallery/img_mountains.jpg"  alt="galary">
+            </a>
+            <div class="card-body">
+                <p class="card-text">Add a description of the image here</p>
+            </div>
+    </div>
+</div>
+
+<p style="margin: 0.8em 0;">This example use media queries to re-arrange the images on different screen sizes: for screens larger than 700px
+    wide, it will show four images side by side, for screens smaller than 700px, it will show two images side by
+    side.
+    For screens smaller than 500px, the images will stack vertically (100%).</p>
+</div>
+</body>
+</html>
+<script src="../../../../Tài liệu/Bootstrap/bootstrap-5.3.0-alpha1-dist/js/bootstrap.js"></script>
+
