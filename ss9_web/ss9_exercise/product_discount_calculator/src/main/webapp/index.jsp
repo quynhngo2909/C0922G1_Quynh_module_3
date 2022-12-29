@@ -5,7 +5,6 @@
     <title>Product Discount Calculator</title>
 </head>
 <body>
-<%--<a href="product-discount-calculator">Calculate</a>--%>
 <form action="product-discount-calculator" method="post">
     <h2>Currency Converter</h2>
     <b>Product Description</b>
