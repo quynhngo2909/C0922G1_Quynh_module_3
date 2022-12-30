@@ -12,9 +12,11 @@ public class CalculatorMethod {
             case "*":
                 return firstOperand * secondOperand;
             case "/":
-                if (secondOperand == 0) {
+                    if (secondOperand == 0){
                     throw new DivideByZeroException("Error! Can not divide by zero");
-                } else return firstOperand / secondOperand;
+                } else {
+                    return firstOperand / secondOperand;
+                }
             default:
                 throw new RuntimeException("Invalid operator");
         }
