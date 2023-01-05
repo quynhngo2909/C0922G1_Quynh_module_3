@@ -43,4 +43,9 @@ public class UserService implements IUserService {
     public List<User> sortByNameDescending() {
         return userRepository.sortByNameDescending();
     }
+
+    @Override
+    public boolean addUserTransaction(User user) {
+        return userRepository.addUserTransaction(user);
+    }
 }

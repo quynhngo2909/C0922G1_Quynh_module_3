@@ -13,4 +13,6 @@ public interface IUserRepository {
 
     List<User> selectUserByCountry(String country);
     List<User> sortByNameDescending();
+
+   boolean addUserTransaction(User user);
 }

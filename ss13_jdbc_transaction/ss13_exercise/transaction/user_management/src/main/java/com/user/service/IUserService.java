@@ -12,5 +12,6 @@ public interface IUserService {
     boolean deleteUser(int id);
     List<User> selectUserByCountry(String country);
     List<User> sortByNameDescending();
+    boolean addUserTransaction(User user);
 
 }

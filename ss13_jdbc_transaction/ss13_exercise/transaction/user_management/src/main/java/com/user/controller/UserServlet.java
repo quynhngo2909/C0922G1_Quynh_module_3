@@ -128,7 +128,7 @@ public class UserServlet extends HttpServlet {
         String email = req.getParameter("email");
         String country = req.getParameter("country");
         RequestDispatcher requestDispatcher;
-        boolean createStatus = userService.insertUser(new User(name, email, country));
+        boolean createStatus = userService.addUserTransaction(new User(name, email, country));
         if (!createStatus) {
             req.setAttribute("message", "Error! Can not create new user");
         } else {

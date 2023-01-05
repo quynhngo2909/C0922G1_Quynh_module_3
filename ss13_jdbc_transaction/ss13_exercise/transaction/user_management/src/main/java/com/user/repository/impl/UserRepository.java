@@ -21,6 +21,7 @@ public class UserRepository implements IUserRepository {
     private static final String SELECT_USERS_BY_COUNTRY = "select * from users where country = ?";
 
     private static final String ORDER_BY_NAME_ASCENDING = "select * from users order by name asc;";
+    private static final String INSERT_USER_SP = "call add_new_user(?,?,?)";
 
     public UserRepository() {
     }
@@ -181,6 +182,31 @@ public class UserRepository implements IUserRepository {
             throw new RuntimeException(e);
         }
         return userList;
+    }
+
+    @Override
+    public boolean addUserTransaction(User user) {
+        boolean addStatus = false;
+        Connection connection = null;
+        try {
+            connection = getConnection();
+            CallableStatement cs = connection.prepareCall(INSERT_USER_SP);
+            connection.setAutoCommit(false);
+            cs.setString(1, user.getName());
+            cs.setString(2, user.getEmail());
+            cs.setString(3, user.getCountry());
+            if (cs.executeUpdate() > 0) {
+                connection.commit();
+                addStatus = true;
+            } else {
+                connection.rollback();
+            }
+            connection.setAutoCommit(true);
+            connection.close();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return addStatus;
     }
 
     private void printSQLException(SQLException ex) {
