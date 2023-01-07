@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Create Villa</title>
+    <title>Create Room</title>
     <link rel="stylesheet" href="bootstrap/bootstrap-5.2.3-dist/css/bootstrap.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -126,13 +126,13 @@
     </div>
 </div>
 <div class="align-content-center">
-    <form action="/ServiceServlet?action=create&id=1" method="post">
+    <form action="/ServiceServlet?action=create&id=3" method="post">
         <fieldset>
-            <legend class="justify-content-center">Create new villa: Villa's information</legend>
+            <legend class="justify-content-center">Create new house: House's information</legend>
             <table class="table table-hover">
                 <tr>
                     <td><label for="name">Name</label></td>
-                    <td><input name="name" id="name" type="text" required="required" placeholder="Input Villa's name">
+                    <td><input name="name" id="name" type="text" required="required" placeholder="Input Room's name">
                     </td>
                     <td hidden><i class="bi bi-check" id="checkName"></i></td>
                     <td><span id="errorName"></span></td>
@@ -167,6 +167,9 @@
                         </select>
                     </td>
                 </tr>
+
+<%--                 public Room(String name, int area, double cost, int maxPeople, int rentTypeId, int facilityTypeId, String facilityFree) {
+       --%>
                 <tr>
                     <td><label for="facilityTypeId">Facility type Id</label></td>
                     <td>
@@ -178,36 +181,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><label for="standardRoom">Standard Room</label></td>
+                    <td><label for="facilityFree">Facility free</label></td>
                     <td>
-                        <input name="standardRoom" id="standardRoom" type="text" required="required">
+                        <input name="facilityFree" id="facilityFree" type="text" required="required">
                     </td>
-                    <td hidden><i class="bi bi-check" id="checkStandardRoom"></i></td>
-                    <td hidden><span id="errorStandardRoom"></span></td>
-                </tr>
-                <tr>
-                    <td><label for="descriptionOtherConvenience">Other Convenience</label></td>
-                    <td>
-                        <input name="descriptionOtherConvenience" id="descriptionOtherConvenience" type="text" required="required" >
-                    </td>
-                    <td hidden><i class="bi bi-check" id="checkOtherConvenience"></i></td>
-                    <td hidden><span id="errorOtherConvenience"></span></td>
-                </tr>
-                <tr>
-                    <td><label for="poolArea">Pool Area</label></td>
-                    <td>
-                        <input name="poolArea" id="poolArea" type="text" required="required">
-                    </td>
-                    <td hidden><i class="bi bi-check" id="checkPoolArea"></i></td>
-                    <td hidden><span id="errorPoolArea"></span></td>
-                </tr>
-                <tr>
-                    <td><label for="numberOfFloors">Number Of Floors</label></td>
-                    <td>
-                        <input name="numberOfFloors" id="numberOfFloors" type="text" required="required">
-                    </td>
-                    <td hidden><i class="bi bi-check" id="checkNumberOfFloors"></i></td>
-                    <td hidden><span id="errorNumberOfFloors"></span></td>
+                    <td hidden><i class="bi bi-check" id="checkFacilityFree"></i></td>
+                    <td hidden><span id="errorFacilityFree"></span></td>
                 </tr>
                 <tr>
                     <td></td>

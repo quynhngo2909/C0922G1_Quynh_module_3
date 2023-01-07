@@ -1,6 +1,8 @@
 package controller;
 
 import model.Facility;
+import model.House;
+import model.Room;
 import model.Villa;
 import service.IFacilityService;
 import service.IFacilityTypeIdService;
@@ -111,17 +113,54 @@ public class ServiceServlet extends HttpServlet {
 
     private void createFacility(HttpServletRequest request, HttpServletResponse response) {
         int facilityId = Integer.parseInt(request.getParameter("id"));
-
-        String dispatcher = "";
+        String name = request.getParameter("name");
+        int area = Integer.parseInt(request.getParameter("area"));
+        Double cost = Double.valueOf(request.getParameter("cost"));
+        int maxPeople = Integer.parseInt(request.getParameter("maxPeople"));
+        int rentTypeId = Integer.parseInt(request.getParameter("rentTypeID"));
+        int facilityTypeId = Integer.parseInt(request.getParameter("facilityTypeId"));
+        String standardRoom;
+        String descriptionOtherConvenience;
+        Double poolArea;
+        int numberOfFloors;
+        String facilityFree;
+        String dispatcher;
         switch (facilityId) {
             case 1:
+                standardRoom = request.getParameter("standardRoom");
+                descriptionOtherConvenience = request.getParameter("descriptionOtherConvenience");
+                poolArea = Double.valueOf(request.getParameter("poolArea"));
+                numberOfFloors = Integer.parseInt(request.getParameter("numberOfFloors"));
+                Villa villa = new Villa(name, area, cost, maxPeople, rentTypeId, facilityTypeId, standardRoom,
+                        descriptionOtherConvenience, poolArea, numberOfFloors);
+                if (!facilityService.createVilla(villa)) {
+                    request.setAttribute("message", "Can not create new villa!");
+                } else {
+                    request.setAttribute("message", "New villa was created!");
+                }
                 dispatcher = "/view/service/createVilla.jsp";
-                Facility villa = new Villa();
                 break;
             case 2:
+                standardRoom = request.getParameter("standardRoom");
+                descriptionOtherConvenience = request.getParameter("descriptionOtherConvenience");
+                numberOfFloors = Integer.parseInt(request.getParameter("numberOfFloors"));
+                House house = new House(name, area, cost, maxPeople, rentTypeId, facilityTypeId, standardRoom,
+                        descriptionOtherConvenience, numberOfFloors);
+                if (!facilityService.createHouse(house)) {
+                    request.setAttribute("message", "Can not create new house!");
+                } else {
+                    request.setAttribute("message", "New house was created!");
+                }
                 dispatcher = "/view/service/createHouse.jsp";
                 break;
             case 3:
+                facilityFree = request.getParameter("facilityFree");
+                Room room = new Room(name, area, cost, maxPeople, rentTypeId, facilityTypeId, facilityFree);
+                if (!facilityService.createRoom(room)) {
+                    request.setAttribute("message", "Can not create new room!");
+                } else {
+                    request.setAttribute("message", "New room was created!");
+                }
                 dispatcher = "/view/service/createRoom.jsp";
                 break;
             default:

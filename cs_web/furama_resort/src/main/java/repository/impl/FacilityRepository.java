@@ -122,7 +122,7 @@ public class FacilityRepository implements IFacilityRepository {
             pt.setInt(6, house.getFacilityTypeId());
             pt.setString(7, house.getStandardRoom());
             pt.setString(8, house.getDescriptionOtherConvenience());
-            pt.setString(9, "-");
+            pt.setDouble(9, 0);
             pt.setInt(10, house.getNumberOfFloors());
             pt.setString(11, "-");
             createStatus = pt.executeUpdate() > 0;
@@ -148,8 +148,8 @@ public class FacilityRepository implements IFacilityRepository {
             pt.setInt(6, room.getFacilityTypeId());
             pt.setString(7, "-");
             pt.setString(8,"-");
-            pt.setString(9, "-");
-            pt.setString(10, "-");
+            pt.setDouble(9, 0);
+            pt.setInt(10, 0);
             pt.setString(11, room.getFacilityFree());
             createStatus = pt.executeUpdate() > 0;
             connection.close();

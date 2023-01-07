@@ -9,7 +9,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Create Villa</title>
+    <title>Create House</title>
     <link rel="stylesheet" href="bootstrap/bootstrap-5.2.3-dist/css/bootstrap.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
@@ -126,13 +126,13 @@
     </div>
 </div>
 <div class="align-content-center">
-    <form action="/ServiceServlet?action=create&id=1" method="post">
+    <form action="/ServiceServlet?action=create&id=2" method="post">
         <fieldset>
-            <legend class="justify-content-center">Create new villa: Villa's information</legend>
+            <legend class="justify-content-center">Create new house: House's information</legend>
             <table class="table table-hover">
                 <tr>
                     <td><label for="name">Name</label></td>
-                    <td><input name="name" id="name" type="text" required="required" placeholder="Input Villa's name">
+                    <td><input name="name" id="name" type="text" required="required" placeholder="Input House's name">
                     </td>
                     <td hidden><i class="bi bi-check" id="checkName"></i></td>
                     <td><span id="errorName"></span></td>
@@ -192,14 +192,6 @@
                     </td>
                     <td hidden><i class="bi bi-check" id="checkOtherConvenience"></i></td>
                     <td hidden><span id="errorOtherConvenience"></span></td>
-                </tr>
-                <tr>
-                    <td><label for="poolArea">Pool Area</label></td>
-                    <td>
-                        <input name="poolArea" id="poolArea" type="text" required="required">
-                    </td>
-                    <td hidden><i class="bi bi-check" id="checkPoolArea"></i></td>
-                    <td hidden><span id="errorPoolArea"></span></td>
                 </tr>
                 <tr>
                     <td><label for="numberOfFloors">Number Of Floors</label></td>
