@@ -22,12 +22,21 @@ public class HomeServlet extends HttpServlet {
                 getCustomerPage(request, response);
                 break;
             case "service":
+                getServicePage(request, response);
                 break;
             case "contact":
                 break;
             default:
                 getHomePage(request, response);
                 break;
+        }
+    }
+
+    private void getServicePage(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.sendRedirect("ServiceServlet");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
