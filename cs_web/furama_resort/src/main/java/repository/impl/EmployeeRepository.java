@@ -116,7 +116,7 @@ public class EmployeeRepository implements IEmployeeRepository {
         boolean deleteStatus = false;
         Connection connection = getConnection();
         try {
-            PreparedStatement pt = connection.prepareStatement(UPDATE_EMPLOYEE);
+            PreparedStatement pt = connection.prepareStatement(DELETE_EMPLOYEE);
             pt.setInt(1, id);
             deleteStatus = pt.executeUpdate() > 0;
         } catch (SQLException e) {
