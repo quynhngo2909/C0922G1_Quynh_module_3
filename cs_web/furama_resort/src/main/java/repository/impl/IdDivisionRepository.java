@@ -1,17 +1,18 @@
 package repository.impl;
 
-import repository.ICustomerTypeRepository;
+import repository.IIdListRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerTypeRepository implements ICustomerTypeRepository {
+public class IdDivisionRepository implements IIdListRepository {
+
     private String jdbcURL = "jdbc:mysql://localhost:3306/furama_database?useSSL=false";
     private String jdbcUserName = "root";
     private String jdbcPassword = "codegym2022";
 
-    private static String SELECT_ALL_CUSTOMER_TYPE_ID = "select id from customer_type";
+    private static String SELECT_POSITION_ID = "select id from division";
 
     private Connection getConnection(){
         Connection connection = null;
@@ -26,21 +27,22 @@ public class CustomerTypeRepository implements ICustomerTypeRepository {
 
         return  connection;
     }
+
     @Override
-    public List<Integer> customerTypeID() {
-        List<Integer> customerTypeId = new ArrayList<>();
+    public List<Integer> idList() {
         Connection connection = getConnection();
-        PreparedStatement pt;
+        List<Integer> rentTypeId = new ArrayList<>();
+        PreparedStatement pt = null;
         try {
-            pt = connection.prepareStatement(SELECT_ALL_CUSTOMER_TYPE_ID);
+            pt = connection.prepareStatement(SELECT_POSITION_ID);
             ResultSet rs = pt.executeQuery();
             while(rs.next()) {
-              customerTypeId.add(rs.getInt(1));
+                rentTypeId.add(rs.getInt(1));
             }
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return customerTypeId;
+        return rentTypeId;
     }
 }

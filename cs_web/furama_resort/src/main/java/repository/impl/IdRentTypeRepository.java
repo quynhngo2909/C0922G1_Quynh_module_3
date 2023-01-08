@@ -1,18 +1,19 @@
 package repository.impl;
 
-import repository.IFacilityTypeRepository;
+
+import repository.IIdListRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FacilityTypeRepository implements IFacilityTypeRepository {
+public class IdRentTypeRepository implements IIdListRepository {
 
     private String jdbcURL = "jdbc:mysql://localhost:3306/furama_database?useSSL=false";
     private String jdbcUserName = "root";
     private String jdbcPassword = "codegym2022";
 
-    private static String SELECT_FACILITY_TYPE_ID = "select id from facility_type";
+    private static String SELECT_RENT_TYPE_ID = "select id from rent_type";
 
     private Connection getConnection(){
         Connection connection = null;
@@ -27,21 +28,22 @@ public class FacilityTypeRepository implements IFacilityTypeRepository {
 
         return  connection;
     }
+
     @Override
-    public List<Integer> facilityTypeID() {
+    public List<Integer> idList() {
         Connection connection = getConnection();
-        List<Integer> facilityTypeID = new ArrayList<>();
+        List<Integer> rentTypeId = new ArrayList<>();
         PreparedStatement pt = null;
         try {
-            pt = connection.prepareStatement(SELECT_FACILITY_TYPE_ID);
+            pt = connection.prepareStatement(SELECT_RENT_TYPE_ID);
             ResultSet rs = pt.executeQuery();
             while(rs.next()) {
-                facilityTypeID.add(rs.getInt(1));
+                rentTypeId.add(rs.getInt(1));
             }
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return facilityTypeID;
+        return rentTypeId;
     }
 }

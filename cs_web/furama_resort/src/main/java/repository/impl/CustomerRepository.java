@@ -49,8 +49,9 @@ public class CustomerRepository implements ICustomerRepository {
                 String phone = rs.getString(7);
                 String email = rs.getString(8);
                 String address = rs.getString(9);
-                customers.add(new Customer(id, customerTypeId, customerName, birthday, gender, idCard, phone, email, address));
+                customers.add(new Customer(id, customerName, birthday, idCard, phone, email, address, customerTypeId, gender));
             }
+
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -76,7 +77,7 @@ public class CustomerRepository implements ICustomerRepository {
                 String phone = rs.getString(7);
                 String email = rs.getString(8);
                 String address = rs.getString(9);
-                customer = new Customer(id, customerTypeId, customerName, birthday, gender, idCard, phone, email, address);
+                customer = new Customer(id, customerName, birthday, idCard, phone, email, address, customerTypeId, gender);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

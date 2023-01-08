@@ -5,11 +5,10 @@ import model.House;
 import model.Room;
 import model.Villa;
 import service.IFacilityService;
-import service.IFacilityTypeIdService;
-import service.IRentTypeIdService;
+import service.IIdListService;
 import service.impl.FacilityService;
-import service.impl.FacilityTypeIdService;
-import service.impl.RentTypeIdService;
+import service.impl.IdFacilityTypeService;
+import service.impl.IdRentTypeService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -20,8 +19,8 @@ import java.util.List;
 @WebServlet(name = "ServiceServlet", value = "/ServiceServlet")
 public class ServiceServlet extends HttpServlet {
     private IFacilityService facilityService = new FacilityService();
-    private IFacilityTypeIdService facilityTypeIdService = new FacilityTypeIdService();
-    private IRentTypeIdService rentTypeIdService = new RentTypeIdService();
+    private IIdListService facilityTypeIdService = new IdFacilityTypeService();
+    private IIdListService rentTypeIdService = new IdRentTypeService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -48,8 +47,8 @@ public class ServiceServlet extends HttpServlet {
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
-        List<Integer> facilityTypeIdList = facilityTypeIdService.facilityTypeID();
-        List<Integer> rentTypeIdList = rentTypeIdService.rentTypeID();
+        List<Integer> facilityTypeIdList = facilityTypeIdService.idList();
+        List<Integer> rentTypeIdList = rentTypeIdService.idList();
         int facilityId = Integer.parseInt(request.getParameter("id"));
         String dispatcher = "";
         switch (facilityId) {

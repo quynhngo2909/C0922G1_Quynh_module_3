@@ -1,9 +1,6 @@
 package service;
 
-import model.Facility;
-import model.House;
-import model.Room;
-import model.Villa;
+import model.*;
 
 import java.util.List;
 
@@ -15,5 +12,5 @@ public interface IFacilityService {
     boolean createRoom(Room room);
     boolean update(int id, Facility facility);
     boolean delete(int id);
-}
 
+}

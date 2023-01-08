@@ -1,19 +1,17 @@
 package repository.impl;
 
-import repository.IFacilityTypeRepository;
-import repository.IRentTypeRepository;
+import repository.IIdListRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RentTypeRepository implements IRentTypeRepository {
-
+public class IdCustomerTypeRepository implements IIdListRepository {
     private String jdbcURL = "jdbc:mysql://localhost:3306/furama_database?useSSL=false";
     private String jdbcUserName = "root";
     private String jdbcPassword = "codegym2022";
 
-    private static String SELECT_RENT_TYPE_ID = "select id from rent_type";
+    private static String SELECT_ALL_CUSTOMER_TYPE_ID = "select id from customer_type";
 
     private Connection getConnection(){
         Connection connection = null;
@@ -28,22 +26,21 @@ public class RentTypeRepository implements IRentTypeRepository {
 
         return  connection;
     }
-
     @Override
-    public List<Integer> rentTypeID() {
+    public List<Integer> idList() {
+        List<Integer> customerTypeId = new ArrayList<>();
         Connection connection = getConnection();
-        List<Integer> rentTypeId = new ArrayList<>();
-        PreparedStatement pt = null;
+        PreparedStatement pt;
         try {
-            pt = connection.prepareStatement(SELECT_RENT_TYPE_ID);
+            pt = connection.prepareStatement(SELECT_ALL_CUSTOMER_TYPE_ID);
             ResultSet rs = pt.executeQuery();
             while(rs.next()) {
-                rentTypeId.add(rs.getInt(1));
+                customerTypeId.add(rs.getInt(1));
             }
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return rentTypeId;
+        return customerTypeId;
     }
 }

@@ -1,10 +1,10 @@
 package controller;
 
 import model.Customer;
-import service.ICustomerTypeIdService;
+import service.IIdListService;
 import service.impl.CustomerService;
 import service.ICustomerService;
-import service.impl.CustomerTypeIdService;
+import service.impl.IdCustomerTypeService;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -16,7 +16,7 @@ import java.util.List;
 @WebServlet(name = "CustomerServlet", value = "/CustomerServlet")
 public class CustomerServlet extends HttpServlet {
     private ICustomerService customerService = new CustomerService();
-    private ICustomerTypeIdService customerTypeIdService = new CustomerTypeIdService();
+    private IIdListService customerTypeIdService = new IdCustomerTypeService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -57,7 +57,7 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
-        List<Integer> customerTypeIdList = customerTypeIdService.customerTypeID();
+        List<Integer> customerTypeIdList = customerTypeIdService.idList();
         request.setAttribute("customerTypeIdList", customerTypeIdList);
         try {
             request.getRequestDispatcher("/view/customer/create.jsp").forward(request, response);
@@ -95,7 +95,7 @@ public class CustomerServlet extends HttpServlet {
             case "create":
                 createCustomer(request, response);
                 break;
-            case "edit":
+            case "update":
                 break;
             case "delete":
                 deleteCustomer(request, response);
@@ -135,7 +135,7 @@ public class CustomerServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
-        createStatus = customerService.create(new Customer(customerTypeID, name, birthday, gender, idCard, phoneNumber, email, address));
+        createStatus = customerService.create(new Customer(name, birthday, idCard, phoneNumber, email, address, customerTypeID, gender));
         if(!createStatus) {
             request.setAttribute("message","Error! New customer can not be created!");
         } else {

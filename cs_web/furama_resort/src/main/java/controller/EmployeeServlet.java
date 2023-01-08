@@ -18,12 +18,6 @@ public class EmployeeServlet extends HttpServlet {
             case "list":
                 getEmployeeList(request, response);
                 break;
-            case "create":
-                break;
-            case "update":
-                break;
-            case "delete":
-                break;
             default:
                 getEmployeeList(request, response);
                 break;
@@ -43,7 +37,7 @@ public class EmployeeServlet extends HttpServlet {
         switch (action) {
             case "create":
                 break;
-            case "edit":
+            case "update":
                 break;
             case "delete":
                 break;

@@ -222,7 +222,7 @@
             <form action="/ServiceServlet?action=delete" method="post">
                 <div class="modal-body">
                     <input hidden type="text" id="deleteId" name="deleteId">
-                    <span>Do you want to delete this customer? </span>
+                    <span>Do you want to delete this facility? </span>
                     <span  style="color: red" id="deleteName"></span>
                 </div>
                 <div class="modal-footer">
