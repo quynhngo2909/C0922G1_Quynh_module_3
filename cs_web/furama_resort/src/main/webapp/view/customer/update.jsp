@@ -16,31 +16,45 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 </head>
 <body>
-<c:import url="../../headerNavbar.jsp"></c:import>;
+<c:import url="../../headerNavbar.jsp"></c:import>
 <!--    Content-->
 <div class="row d-flex justify-content-center fw-bold fs-3">Customer Management</div>
 <div class="row d-flex justify-content-between">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <a href="/CustomerServlet">
             <button class="btn btn-outline-primary btn-sm" type="submit">Back to customer list</button>
         </a>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <a href="/CustomerServlet?action=create">
             <button class="btn btn-outline-info btn-sm" type="submit">Create new</button>
         </a>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <c:if test="${requestScope['message'] != null}">
-            <span class="text-bg-info text-warning">${requestScope['message']}</span>
+            <span class="text-bg-success text-warning">${requestScope['message']}</span>
         </c:if>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <form action="/CustomerServlet?action=search" method="post">
+                <button class="btn btn-outline-info btn-sm col-md-2 px-0" type="submit">Search by</button>
+                <input class="col-md-3 form-control-sm px-0 py-0" name="name" placeholder="Name">
+                <input class="col-md-3 form-control-sm px-0 py-0" name="customerType" placeholder="Type">
+                <input class="col-md-3 form-control-sm px-0 py-0" name="address" placeholder="Address">
+            </form>
+        </div>
     </div>
 </div>
 <div class="align-content-center">
-    <form action="/CustomerServlet?action=create" method="post">
+    <form action="/CustomerServlet?action=update" method="post">
         <fieldset>
             <legend class="justify-content-center">Update Customer's information</legend>
             <table class="table table-hover">
+                <tr hidden="hidden">
+                    <td><label for="id">ID</label></td>
+                    <td><input name="id" id="id" type="text" readonly="readonly" value="${customer.getId()}"></td>
+                </tr>
                 <tr>
                     <td><label for="name">Name</label></td>
                     <td><input name="name" id="name" type="text" required="required"
@@ -58,9 +72,17 @@
                 <tr>
                     <td><label for="gender">Gender</label></td>
                     <td>
-                        <select name="gender" id="gender"  value="${customer.isGender()}">
-                            <option value="true">Male</option>
-                            <option value="false">Female</option>
+                        <select name="gender" id="gender">
+                            <c:choose>
+                                <c:when test="${customer.isGender() == true}">
+                                    <option value="true" selected="selected">Male</option>
+                                    <option value="false">Female</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="true" >Male</option>
+                                    <option value="false"selected="selected">Female</option>
+                                </c:otherwise>
+                            </c:choose>
                         </select>
                     </td>
                 </tr>
@@ -101,11 +123,18 @@
                     <td hidden><span id="errorAddress"></span></td>
                 </tr>
                 <tr>
-                    <td><label for="customerTypeID">Customer type Id</label></td>
+                    <td><label for="customerType">Customer type</label></td>
                     <td>
-                        <select name="customerTypeID" id="customerTypeID">
+                        <select name="customerType" id="customerType">
                             <c:forEach items="${customerTypeList}" var="customerType">
-                                <option value="${customerType}">${customerType}</option>
+                                <c:choose>
+                                    <c:when test="${customerType == customer.getCustomerTypeId().getName()}">
+                                        <option value="${customerType}" selected="selected">${customerType}</option>
+                                    </c:when>
+                                <c:otherwise>
+                                    <option value="${customerType}">${customerType}</option>
+                                </c:otherwise>
+                                </c:choose>
                             </c:forEach>
                         </select>
                     </td>

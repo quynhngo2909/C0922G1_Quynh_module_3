@@ -22,20 +22,30 @@
 <!--    Content-->
 <div class="row d-flex justify-content-center fw-bold fs-3">Customer Management</div>
 <div class="row d-flex justify-content-between">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <a href="/CustomerServlet">
             <button class="btn btn-outline-primary btn-sm" type="submit">Back to customer list</button>
         </a>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <a href="/CustomerServlet?action=create">
             <button class="btn btn-outline-info btn-sm" type="submit">Create new</button>
         </a>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <c:if test="${requestScope['message'] != null}">
             <span class="text-bg-success text-warning">${requestScope['message']}</span>
         </c:if>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <form action="/CustomerServlet?action=search" method="post">
+                <button class="btn btn-outline-info btn-sm col-md-2 px-0" type="submit">Search by</button>
+                <input class="col-md-3 form-control-sm px-0 py-0" name="name" placeholder="Name">
+                <input class="col-md-3 form-control-sm px-0 py-0" name="customerType" placeholder="Type">
+                <input class="col-md-3 form-control-sm px-0 py-0" name="address" placeholder="Address">
+            </form>
+        </div>
     </div>
 </div>
 <table class="table table-hover" id="tableCustomer">

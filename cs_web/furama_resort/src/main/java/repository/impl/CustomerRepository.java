@@ -1,6 +1,5 @@
 package repository.impl;
 
-import model.Customer;
 import model.CustomerTypeId;
 import model.CustomerVirtual;
 import repository.ICustomerRepository;
@@ -18,9 +17,11 @@ public class CustomerRepository implements ICustomerRepository {
     private static String SELECT_ALL_CUSTOMERS = "select c.id, ct.name, c.name, c.birthday, c.gender, c.id_card, c.phone_number, c.email, c.address from customer c join customer_type ct where c.customer_type = ct.id";
     private static String INSERT_NEW_CUSTOMER = "insert into customer(customer_type, name, birthday, gender, id_card, phone_number, email, address) values(?,?,?,?,?,?,?,?)";
     private static String UPDATE_CUSTOMER = "update customer set customer_type=?,  name=?, birthday=?, gender=?, id_card=?, phone_number=?, email=?, address=?  where id =?";
-    private static String SELECT_CUSTOMER_BY_ID = "select c.id, ct.name, c.name, c.birthday, c.gender, c.id_card, c.phone_number, c.email, c.address from customer c join customer_type ct where c.customer_type = ct.id and c.id = ?;";
+    private static String SELECT_CUSTOMER_BY_ID = "select c.id, ct.name, c.name, c.birthday, c.gender, c.id_card, c.phone_number, c.email, c.address from customer c join customer_type ct on c.customer_type = ct.id where c.id = ?";
     private static String DELETE_CUSTOMER_BY_ID = "delete from customer where id=?";
-
+    private static String SEARCH_BY_NAME_TYPE_ADDRESS = "select c.id, ct.name, c.name, c.birthday, c.gender, c.id_card, " +
+            "c.phone_number, c.email, c.address from customer c join customer_type ct on c.customer_type = ct.id " +
+            "where c.name like ? and ct.name like ? and c.address like ?";
     protected Connection getConnection() {
         Connection connection = null;
         try {
@@ -53,6 +54,7 @@ public class CustomerRepository implements ICustomerRepository {
                 String address = rs.getString(9);
                 customers.add(new CustomerVirtual(id, customerName, birthday, idCard, phone, email, address, new CustomerTypeId(customerType), gender));
             }
+            connection.close();
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
@@ -125,7 +127,7 @@ public class CustomerRepository implements ICustomerRepository {
             pt.setString(6, customer.getPhoneNumber());
             pt.setString(7, customer.getEmail());
             pt.setString(8, customer.getAddress());
-            pt.setInt(8, id);
+            pt.setInt(9, id);
             updateStatus = pt.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -147,5 +149,34 @@ public class CustomerRepository implements ICustomerRepository {
         }
 
         return deleteStatus;
+    }
+
+    @Override
+    public List<CustomerVirtual> searchByNameTypeAddress(String strName, String strType, String strAddress) {
+        List<CustomerVirtual> customers = new ArrayList<>();
+        Connection connection = getConnection();
+        try {
+            PreparedStatement pt = connection.prepareStatement(SEARCH_BY_NAME_TYPE_ADDRESS);
+            pt.setString(1, "%" + strName + "%");
+            pt.setString(2, "%" +strType + "%");
+            pt.setString(3, "%" +strAddress + "%");
+            ResultSet rs = pt.executeQuery();
+            while(rs.next()) {
+                int id = rs.getInt(1);
+                String customerType = rs.getString(2);
+                String customerName = rs.getString(3);
+                String birthday = rs.getString(4);
+                Boolean gender = rs.getBoolean(5);
+                String idCard = rs.getString(6);
+                String phone = rs.getString(7);
+                String email = rs.getString(8);
+                String address = rs.getString(9);
+                customers.add(new CustomerVirtual(id, customerName, birthday, idCard, phone, email, address, new CustomerTypeId(customerType), gender));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return customers;
     }
 }

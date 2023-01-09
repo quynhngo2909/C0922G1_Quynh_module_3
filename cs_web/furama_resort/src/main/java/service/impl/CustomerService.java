@@ -16,7 +16,7 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public CustomerVirtual findById(int id) {
-        return null;
+        return customerRepository.findById(id);
     }
 
     @Override
@@ -32,5 +32,10 @@ public class CustomerService implements ICustomerService {
     @Override
     public boolean delete(int id) {
         return customerRepository.delete(id);
+    }
+
+    @Override
+    public List<CustomerVirtual> searchByNameTypeAddress(String strName, String strType, String strAddress) {
+        return customerRepository.searchByNameTypeAddress(strName, strType, strAddress);
     }
 }

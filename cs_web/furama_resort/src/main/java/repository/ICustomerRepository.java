@@ -10,4 +10,5 @@ public interface ICustomerRepository {
     boolean create(CustomerVirtual customer);
     boolean update(int id, CustomerVirtual customer);
     boolean delete(int id);
+    List<CustomerVirtual> searchByNameTypeAddress(String strName, String strType, String strAddress);
 }

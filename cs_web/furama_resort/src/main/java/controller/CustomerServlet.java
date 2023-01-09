@@ -37,8 +37,6 @@ public class CustomerServlet extends HttpServlet {
             case "update":
                 showUpdateForm(request, response);
                 break;
-            case "search":
-                break;
             default:
                 getCustomerList(request, response);
                 break;
@@ -100,13 +98,63 @@ public class CustomerServlet extends HttpServlet {
                 createCustomer(request, response);
                 break;
             case "update":
+                updateCustomer(request, response);
                 break;
             case "delete":
                 deleteCustomer(request, response);
                 break;
+            case "search":
+                searchCustomerByNameTypeAddress(request, response);
+                break;
             default:
                 getCustomerList(request, response);
                 break;
+        }
+    }
+
+    private void searchCustomerByNameTypeAddress(HttpServletRequest request, HttpServletResponse response) {
+        List<CustomerVirtual>  customerList = new ArrayList<>();
+        String name = request.getParameter("name");
+        String customerType = request.getParameter("customerType");
+        String address = request.getParameter("address");
+
+        customerList = customerService.searchByNameTypeAddress(name, customerType, address);
+        if (customerList.size() == 0) {
+            request.setAttribute("message", "There is no matched customer");
+        }
+        try {
+            request.setAttribute("customerList", customerList);
+            request.getRequestDispatcher("/view/customer/list.jsp").forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void updateCustomer(HttpServletRequest request, HttpServletResponse response) {
+        boolean updateStatus = false;
+        int id = Integer.parseInt(request.getParameter("id"));
+        String customerType = request.getParameter("customerType");
+        String name = request.getParameter("name");
+        String birthday = request.getParameter("birthday");
+        boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
+        String idCard = request.getParameter("idCard");
+        String phoneNumber = request.getParameter("phoneNumber");
+        String email = request.getParameter("email");
+        String address = request.getParameter("address");
+        updateStatus = customerService.update(id, new CustomerVirtual(name, birthday, idCard, phoneNumber, email, address, new CustomerTypeId(customerType), gender));
+        if (!updateStatus) {
+            request.setAttribute("message", "Error! Can not update customer's information!");
+        } else {
+            request.setAttribute("message", "Customer's information was updated successfully!");
+        }
+        try {
+            request.getRequestDispatcher("/view/customer/update.jsp").forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
