@@ -5,7 +5,9 @@ import repository.IIdListRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IdRentTypeRepository implements IIdListRepository {
 
@@ -13,7 +15,7 @@ public class IdRentTypeRepository implements IIdListRepository {
     private String jdbcUserName = "root";
     private String jdbcPassword = "codegym2022";
 
-    private static String SELECT_RENT_TYPE_ID = "select id from rent_type";
+    private static String SELECT_RENT_TYPE_ID = "select * from rent_type";
 
     private Connection getConnection(){
         Connection connection = null;
@@ -39,6 +41,42 @@ public class IdRentTypeRepository implements IIdListRepository {
             ResultSet rs = pt.executeQuery();
             while(rs.next()) {
                 rentTypeId.add(rs.getInt(1));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rentTypeId;
+    }
+
+    @Override
+    public List<String> typeNameList() {
+        Connection connection = getConnection();
+        List<String> rentType = new ArrayList<>();
+        PreparedStatement pt = null;
+        try {
+            pt = connection.prepareStatement(SELECT_RENT_TYPE_ID);
+            ResultSet rs = pt.executeQuery();
+            while(rs.next()) {
+                rentType.add(rs.getString(2));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rentType;
+    }
+
+    @Override
+    public Map<String, Integer> typeId() {
+        Map<String, Integer> rentTypeId = new HashMap<>();
+        Connection connection = getConnection();
+        PreparedStatement pt;
+        try {
+            pt = connection.prepareStatement(SELECT_RENT_TYPE_ID);
+            ResultSet rs = pt.executeQuery();
+            while (rs.next()) {
+                rentTypeId.put(rs.getString(2), rs.getInt(1));
             }
             connection.close();
         } catch (SQLException e) {

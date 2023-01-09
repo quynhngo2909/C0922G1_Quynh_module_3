@@ -1,6 +1,6 @@
 package service.impl;
 
-import model.Customer;
+import model.CustomerVirtual;
 import repository.ICustomerRepository;
 import repository.impl.CustomerRepository;
 import service.ICustomerService;
@@ -10,22 +10,22 @@ import java.util.List;
 public class CustomerService implements ICustomerService {
     private ICustomerRepository customerRepository = new CustomerRepository();
     @Override
-    public List<Customer> customers() {
+    public List<CustomerVirtual> customers() {
         return customerRepository.customers();
     }
 
     @Override
-    public Customer findById(int id) {
+    public CustomerVirtual findById(int id) {
         return null;
     }
 
     @Override
-    public boolean create(Customer customer) {
+    public boolean create(CustomerVirtual customer) {
         return customerRepository.create(customer);
     }
 
     @Override
-    public boolean update(int id, Customer customer) {
+    public boolean update(int id, CustomerVirtual customer) {
         return customerRepository.update(id, customer);
     }
 

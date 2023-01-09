@@ -44,21 +44,21 @@
                 <tr>
                     <td><label for="name">Name</label></td>
                     <td><input name="name" id="name" type="text" required="required"
-                               placeholder="${customer.getName()}"></td>
+                               value="${customer.getName()}"></td>
                     <td hidden><i class="bi bi-check" id="checkName"></i></td>
                     <td><span id="errorName"></span></td>
                 </tr>
                 <tr>
                     <td><label for="birthday">Birthday</label></td>
                     <td><input name="birthday" id="birthday" type="date" required="required"
-                               placeholder="${customer.getBirthday()}"></td>
+                               value="${customer.getBirthday()}"></td>
                     <td hidden><i class="bi bi-check" id="checkBirthday"></i></td>
                     <td hidden><span id="errorBirthday"></span></td>
                 </tr>
                 <tr>
                     <td><label for="gender">Gender</label></td>
                     <td>
-                        <select name="gender" id="gender">
+                        <select name="gender" id="gender"  value="${customer.isGender()}">
                             <option value="true">Male</option>
                             <option value="false">Female</option>
                         </select>
@@ -68,7 +68,7 @@
                     <td><label for="idCard">Identity card</label></td>
                     <td>
                         <input name="idCard" id="idCard" type="text" required="required"
-                               placeholder="${customer.getIdCard()}">
+                               value="${customer.getIdCard()}">
                     </td>
                     <td hidden><i class="bi bi-check" id="checkIdCard"></i></td>
                     <td hidden><span id="errorIdCard"></span></td>
@@ -77,7 +77,7 @@
                     <td><label for="phoneNumber">Phone number</label></td>
                     <td>
                         <input name="phoneNumber" id="phoneNumber" type="text" required="required"
-                               placeholder="${customer.getPhoneNumber()}">
+                               value="${customer.getPhoneNumber()}">
                     </td>
                     <td hidden><i class="bi bi-check" id="checkPhoneNumber"></i></td>
                     <td hidden><span id="errorPhoneNumber"></span></td>
@@ -86,7 +86,7 @@
                     <td><label for="email">Email</label></td>
                     <td>
                         <input name="email" id="email" type="text" required="required"
-                               placeholder="${customer.getEmail()}">
+                               value="${customer.getEmail()}">
                     </td>
                     <td hidden><i class="bi bi-check" id="checkEmail"></i></td>
                     <td hidden><span id="errorEmail"></span></td>
@@ -95,7 +95,7 @@
                     <td><label for="address">Address</label></td>
                     <td>
                         <input name="address" id="address" type="text" required="required"
-                               placeholder="${customer.getAddress()}">
+                               value="${customer.getAddress()}">
                     </td>
                     <td hidden><i class="bi bi-check" id="checkAddress"></i></td>
                     <td hidden><span id="errorAddress"></span></td>
@@ -104,8 +104,8 @@
                     <td><label for="customerTypeID">Customer type Id</label></td>
                     <td>
                         <select name="customerTypeID" id="customerTypeID">
-                            <c:forEach items="${customerTypeIdList}" var="customerTypeId">
-                                <option value="${customerTypeId}">${customerTypeId}</option>
+                            <c:forEach items="${customerTypeList}" var="customerType">
+                                <option value="${customerType}">${customerType}</option>
                             </c:forEach>
                         </select>
                     </td>

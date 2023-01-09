@@ -43,8 +43,8 @@
     <tr class="text-center">
         <th>No.</th>
         <th>ID</th>
-        <th>Customer type ID</th>
         <th>Name</th>
+        <th>Customer Type</th>
         <th>Birthday</th>
         <th>Gender</th>
         <th>ID Card</th>
@@ -59,8 +59,8 @@
         <tr>
             <td>${status.count}</td>
             <td>${customer.getId()}</td>
-            <td>${customer.getCustomerTypeId()}</td>
             <td>${customer.getName()}</td>
+            <td>${customer.getCustomerTypeId().getName()}</td>
             <td>${customer.getBirthday()}</td>
             <td>
                 <c:choose>

@@ -1,6 +1,8 @@
 package controller;
 
 import model.Customer;
+import model.CustomerTypeId;
+import model.CustomerVirtual;
 import service.IIdListService;
 import service.impl.CustomerService;
 import service.ICustomerService;
@@ -45,8 +47,10 @@ public class CustomerServlet extends HttpServlet {
 
     private void showUpdateForm(HttpServletRequest request, HttpServletResponse response) {
         int id = Integer.parseInt(request.getParameter("id"));
-        Customer customer = customerService.findById(id);
+        CustomerVirtual customer = customerService.findById(id);
+        List<String> customerTypeList = customerTypeIdService.typeNameList();
         request.setAttribute("customer", customer);
+        request.setAttribute("customerTypeList", customerTypeList);
         try {
             request.getRequestDispatcher("/view/customer/update.jsp").forward(request, response);
         } catch (ServletException e) {
@@ -57,8 +61,8 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
-        List<Integer> customerTypeIdList = customerTypeIdService.idList();
-        request.setAttribute("customerTypeIdList", customerTypeIdList);
+        List<String> customerTypeList = customerTypeIdService.typeNameList();
+        request.setAttribute("customerTypeList", customerTypeList);
         try {
             request.getRequestDispatcher("/view/customer/create.jsp").forward(request, response);
         } catch (ServletException e) {
@@ -69,7 +73,7 @@ public class CustomerServlet extends HttpServlet {
     }
 
     private void getCustomerList(HttpServletRequest request, HttpServletResponse response) {
-        List<Customer> customerList = new ArrayList<>();
+        List<CustomerVirtual> customerList = new ArrayList<>();
         customerList = customerService.customers();
         if (customerList.size() == 0) {
             request.setAttribute("message", "Customer list is empty");
@@ -110,10 +114,10 @@ public class CustomerServlet extends HttpServlet {
         boolean deleteStatus = false;
         int id = Integer.parseInt(request.getParameter("deleteId"));
         deleteStatus = customerService.delete(id);
-        if(!deleteStatus) {
-            request.setAttribute("message","Error! Can not delete this customer!");
+        if (!deleteStatus) {
+            request.setAttribute("message", "Error! Can not delete this customer!");
         } else {
-            request.setAttribute("message","Customer was deleted!");
+            request.setAttribute("message", "Customer was deleted!");
         }
         try {
             request.getRequestDispatcher("/view/customer/list.jsp").forward(request, response);
@@ -127,7 +131,7 @@ public class CustomerServlet extends HttpServlet {
 
     private void createCustomer(HttpServletRequest request, HttpServletResponse response) {
         boolean createStatus = false;
-        int customerTypeID = Integer.parseInt(request.getParameter("customerTypeID"));
+        String customerType = request.getParameter("customerTypeID");
         String name = request.getParameter("name");
         String birthday = request.getParameter("birthday");
         boolean gender = Boolean.parseBoolean(request.getParameter("gender"));
@@ -135,11 +139,11 @@ public class CustomerServlet extends HttpServlet {
         String phoneNumber = request.getParameter("phoneNumber");
         String email = request.getParameter("email");
         String address = request.getParameter("address");
-        createStatus = customerService.create(new Customer(name, birthday, idCard, phoneNumber, email, address, customerTypeID, gender));
-        if(!createStatus) {
-            request.setAttribute("message","Error! New customer can not be created!");
+        createStatus = customerService.create(new CustomerVirtual(name, birthday, idCard, phoneNumber, email, address, new CustomerTypeId(customerType), gender));
+        if (!createStatus) {
+            request.setAttribute("message", "Error! New customer can not be created!");
         } else {
-            request.setAttribute("message","New customer was created successfully!");
+            request.setAttribute("message", "New customer was created successfully!");
         }
         try {
             request.getRequestDispatcher("/view/customer/create.jsp").forward(request, response);

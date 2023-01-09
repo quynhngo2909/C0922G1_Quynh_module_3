@@ -4,7 +4,9 @@ import repository.IIdListRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class IdDivisionRepository implements IIdListRepository {
 
@@ -12,9 +14,9 @@ public class IdDivisionRepository implements IIdListRepository {
     private String jdbcUserName = "root";
     private String jdbcPassword = "codegym2022";
 
-    private static String SELECT_POSITION_ID = "select id from division";
+    private static String SELECT_DIVISION = "select * from division";
 
-    private Connection getConnection(){
+    private Connection getConnection() {
         Connection connection = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -25,24 +27,60 @@ public class IdDivisionRepository implements IIdListRepository {
             throw new RuntimeException(e);
         }
 
-        return  connection;
+        return connection;
     }
 
     @Override
     public List<Integer> idList() {
         Connection connection = getConnection();
-        List<Integer> rentTypeId = new ArrayList<>();
+        List<Integer> divisionTypeId = new ArrayList<>();
         PreparedStatement pt = null;
         try {
-            pt = connection.prepareStatement(SELECT_POSITION_ID);
+            pt = connection.prepareStatement(SELECT_DIVISION);
             ResultSet rs = pt.executeQuery();
-            while(rs.next()) {
-                rentTypeId.add(rs.getInt(1));
+            while (rs.next()) {
+                divisionTypeId.add(rs.getInt(1));
             }
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return rentTypeId;
+        return divisionTypeId;
+    }
+
+    @Override
+    public List<String> typeNameList() {
+        Connection connection = getConnection();
+        List<String> divisionType = new ArrayList<>();
+        PreparedStatement pt = null;
+        try {
+            pt = connection.prepareStatement(SELECT_DIVISION);
+            ResultSet rs = pt.executeQuery();
+            while (rs.next()) {
+                divisionType.add(rs.getString(2));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return divisionType;
+    }
+
+    @Override
+    public Map<String, Integer> typeId() {
+        Map<String, Integer> divisionTypeId = new HashMap<>();
+        Connection connection = getConnection();
+        PreparedStatement pt;
+        try {
+            pt = connection.prepareStatement(SELECT_DIVISION);
+            ResultSet rs = pt.executeQuery();
+            while (rs.next()) {
+                divisionTypeId.put(rs.getString(2), rs.getInt(1));
+            }
+            connection.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return divisionTypeId;
     }
 }

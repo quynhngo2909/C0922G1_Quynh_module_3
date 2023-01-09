@@ -36,7 +36,7 @@
         </c:if>
     </div>
 </div>
-<table class="table table-hover">
+<table class="table table-hover" id="tableEmployee">
     <thead>
     <tr>
         <th>No.</th>
@@ -174,6 +174,16 @@
 <script src="jquery/jquery-3.5.1.min.js"></script>
 <script src="datatables/js/jquery.dataTables.js"></script>
 <script src="datatables/js/dataTables.bootstrap5.js"></script>
+<script>
+    $(document).ready(function (){
+        $('#tableEmployee').dataTable({
+            "pageLength" : 5,
+            "lengthChange": false
+        });
+
+    });
+</script>
+
 <script>
     function infoDelete(id, name) {
         document.getElementById("deleteId").value = id;

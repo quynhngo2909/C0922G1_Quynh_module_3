@@ -1,13 +1,13 @@
 package service;
 
-import model.Customer;
+import model.CustomerVirtual;
 
 import java.util.List;
 
 public interface ICustomerService {
-    List<Customer> customers();
-    Customer findById(int id);
-    boolean create(Customer customer);
-    boolean update(int id, Customer customer);
+    List<CustomerVirtual> customers();
+    CustomerVirtual findById(int id);
+    boolean create(CustomerVirtual customer);
+    boolean update(int id, CustomerVirtual customer);
     boolean delete(int id);
 }

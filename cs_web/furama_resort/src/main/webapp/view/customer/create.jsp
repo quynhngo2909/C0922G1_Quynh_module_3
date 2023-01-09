@@ -43,13 +43,14 @@
     <form action="/CustomerServlet?action=create" method="post">
         <fieldset>
             <legend class="justify-content-center">Create new customer: Customer's information</legend>
-            <table class="table table-hover">
+            <table class="table table-hover justify-content-start">
                 <tr>
                     <td><label for="name">Name</label></td>
-                    <td><input name="name" id="name" type="text" required="required"
-                               placeholder="Input customer's name"></td>
-                    <td hidden><i class="bi bi-check" id="checkName"></i></td>
-                    <td><span id="errorName"></span></td>
+                    <td><input oninput="checkName(this.value)" name="name" id="name" type="text" required="required"
+                               placeholder="Input customer's name">
+                    <i hidden id="checkName" class="bi bi-check"></i>
+                    <span id="errorName"></span>
+                    </td>
                 </tr>
                 <tr>
                     <td><label for="birthday">Birthday</label></td>
@@ -71,8 +72,8 @@
                     <td>
                         <input name="idCard" id="idCard" type="text" required="required" placeholder="Input Id card">
                     </td>
-                    <td hidden><i class="bi bi-check" id="checkIdCard"></i></td>
-                    <td hidden><span id="errorIdCard"></span></td>
+                    <td><i hidden class="bi bi-check" id="checkIdCard"></i></td>
+                    <td><span id="errorIdCard"></span></td>
                 </tr>
                 <tr>
                     <td><label for="phoneNumber">Phone number</label></td>
@@ -103,8 +104,8 @@
                     <td><label for="customerTypeID">Customer type Id</label></td>
                     <td>
                         <select name="customerTypeID" id="customerTypeID">
-                            <c:forEach items="${customerTypeIdList}" var="customerTypeId">
-                                <option value="${customerTypeId}">${customerTypeId}</option>
+                            <c:forEach items="${customerTypeList}" var="customerType">
+                                <option value="${customerType}">${customerType}</option>
                             </c:forEach>
                         </select>
                     </td>
@@ -113,7 +114,7 @@
                     <td></td>
                     <td>
                         <input type="reset" value="Reset" class="btn btn-outline-secondary btn-sm">
-                        <input type="submit" value="Submit" class="btn btn-outline-success btn-sm">
+                        <input disabled id="saveButton" type="submit" value="Submit" class="btn btn-outline-success btn-sm">
                     </td>
                 </tr>
             </table>
@@ -143,5 +144,6 @@
         })
     });
 </script>
+<script src="/view/customer/validationCustomer.js"></script>
 </html>
 

@@ -5,6 +5,7 @@ import repository.impl.IdCustomerTypeRepository;
 import service.IIdListService;
 
 import java.util.List;
+import java.util.Map;
 
 public class IdCustomerTypeService implements IIdListService {
     private IIdListRepository customerTypeRepository = new IdCustomerTypeRepository();
@@ -12,5 +13,15 @@ public class IdCustomerTypeService implements IIdListService {
     @Override
     public List<Integer> idList() {
         return customerTypeRepository.idList();
+    }
+
+    @Override
+    public List<String> typeNameList() {
+        return customerTypeRepository.typeNameList();
+    }
+
+    @Override
+    public Map<String, Integer> typeId() {
+        return customerTypeRepository.typeId();
     }
 }
