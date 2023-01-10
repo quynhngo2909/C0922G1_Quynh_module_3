@@ -96,7 +96,7 @@ public class CustomerRepository implements ICustomerRepository {
         PreparedStatement pt;
         try {
             pt = connection.prepareStatement(INSERT_NEW_CUSTOMER);
-            pt.setInt(1, customerTypeRepository.typeId().get(customer.getCustomerTypeId().getName()));
+            pt.setInt(1, customerTypeRepository.typeIdMap().get(customer.getCustomerTypeId().getName()));
             pt.setString(2, customer.getName());
             pt.setString(3, customer.getBirthday());
             pt.setBoolean(4, customer.isGender());
@@ -119,7 +119,7 @@ public class CustomerRepository implements ICustomerRepository {
         PreparedStatement pt;
         try {
             pt = connection.prepareStatement(UPDATE_CUSTOMER);
-            pt.setInt(1, customerTypeRepository.typeId().get(customer.getCustomerTypeId().getName()));
+            pt.setInt(1, customerTypeRepository.typeIdMap().get(customer.getCustomerTypeId().getName()));
             pt.setString(2, customer.getName());
             pt.setString(3, customer.getBirthday());
             pt.setBoolean(4, customer.isGender());

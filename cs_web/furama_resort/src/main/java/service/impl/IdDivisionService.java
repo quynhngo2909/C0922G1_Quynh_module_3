@@ -22,6 +22,6 @@ public class IdDivisionService implements IIdListService {
 
     @Override
     public Map<String, Integer> typeId() {
-        return divisionRepository.typeId();
+        return divisionRepository.typeIdMap();
     }
 }

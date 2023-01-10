@@ -1,9 +1,6 @@
 package controller;
 
-import model.Facility;
-import model.House;
-import model.Room;
-import model.Villa;
+import model.*;
 import service.IFacilityService;
 import service.IIdListService;
 import service.impl.FacilityService;
@@ -19,8 +16,8 @@ import java.util.List;
 @WebServlet(name = "ServiceServlet", value = "/ServiceServlet")
 public class ServiceServlet extends HttpServlet {
     private IFacilityService facilityService = new FacilityService();
-    private IIdListService facilityTypeIdService = new IdFacilityTypeService();
-    private IIdListService rentTypeIdService = new IdRentTypeService();
+    private IIdListService idFacilityTypeService = new IdFacilityTypeService();
+    private IIdListService idRentTypeService = new IdRentTypeService();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -34,11 +31,9 @@ public class ServiceServlet extends HttpServlet {
                 getFacilityList(request, response);
                 break;
             case "create":
-                showCreateForm(request, response);
+                getRentTypeFacilityType(request, response);
                 break;
             case "update":
-                break;
-            case "search":
                 break;
             default:
                 getFacilityList(request, response);
@@ -46,9 +41,23 @@ public class ServiceServlet extends HttpServlet {
         }
     }
 
+    private void getRentTypeFacilityType(HttpServletRequest request, HttpServletResponse response) {
+        List<String> rentTypeList = idRentTypeService.typeNameList();
+        List<String> facilityTypeList = idFacilityTypeService.typeNameList();
+        request.setAttribute("rentTypeList", rentTypeList);
+        request.setAttribute("facilityTypeList", facilityTypeList);
+        try {
+            request.getRequestDispatcher("/view/service/create.jsp").forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void showCreateForm(HttpServletRequest request, HttpServletResponse response) {
-        List<Integer> facilityTypeIdList = facilityTypeIdService.idList();
-        List<Integer> rentTypeIdList = rentTypeIdService.idList();
+        List<Integer> facilityTypeIdList = idFacilityTypeService.idList();
+        List<Integer> rentTypeIdList = idRentTypeService.idList();
         int facilityId = Integer.parseInt(request.getParameter("id"));
         String dispatcher = "";
         switch (facilityId) {
@@ -62,7 +71,7 @@ public class ServiceServlet extends HttpServlet {
                 dispatcher = "/view/service/createRoom.jsp";
                 break;
             default:
-                dispatcher= "/view/service/list.jsp";
+                dispatcher = "/view/service/list.jsp";
                 break;
         }
         request.setAttribute("facilityTypeIdList", facilityTypeIdList);
@@ -77,7 +86,7 @@ public class ServiceServlet extends HttpServlet {
     }
 
     private void getFacilityList(HttpServletRequest request, HttpServletResponse response) {
-        List<Facility> facilityList = facilityService.facilityList();
+        List<FacilityVirtual> facilityList = facilityService.facilityList();
         if (facilityList.size() == 0) {
             request.setAttribute("message", "The facility list is empty!");
         }
@@ -104,71 +113,76 @@ public class ServiceServlet extends HttpServlet {
                 break;
             case "update":
                 break;
+            case "search":
+                searchByNameRentTypeCost(request, response);
+                break;
+            case "delete":
+                deleteFacility(request, response);
+                break;
             default:
                 getFacilityList(request, response);
                 break;
         }
     }
 
+    private void deleteFacility(HttpServletRequest request, HttpServletResponse response) {
+        boolean deleteStatus = false;
+        int id = Integer.parseInt(request.getParameter("deleteId"));
+        deleteStatus = facilityService.delete(id);
+        if (!deleteStatus) {
+            request.setAttribute("message", "Error! Can not delete this facility!");
+        } else {
+            request.setAttribute("message", "The facility was deleted!");
+        }
+        try {
+            request.getRequestDispatcher("/view/service/list.jsp").forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
     private void createFacility(HttpServletRequest request, HttpServletResponse response) {
-        int facilityId = Integer.parseInt(request.getParameter("id"));
+        boolean createStatus = false;
         String name = request.getParameter("name");
         int area = Integer.parseInt(request.getParameter("area"));
         Double cost = Double.valueOf(request.getParameter("cost"));
         int maxPeople = Integer.parseInt(request.getParameter("maxPeople"));
-        int rentTypeId = Integer.parseInt(request.getParameter("rentTypeID"));
-        int facilityTypeId = Integer.parseInt(request.getParameter("facilityTypeId"));
-        String standardRoom;
-        String descriptionOtherConvenience;
-        Double poolArea;
-        int numberOfFloors;
-        String facilityFree;
-        String dispatcher;
-        switch (facilityId) {
-            case 1:
-                standardRoom = request.getParameter("standardRoom");
-                descriptionOtherConvenience = request.getParameter("descriptionOtherConvenience");
-                poolArea = Double.valueOf(request.getParameter("poolArea"));
-                numberOfFloors = Integer.parseInt(request.getParameter("numberOfFloors"));
-                Villa villa = new Villa(name, area, cost, maxPeople, rentTypeId, facilityTypeId, standardRoom,
-                        descriptionOtherConvenience, poolArea, numberOfFloors);
-                if (!facilityService.createVilla(villa)) {
-                    request.setAttribute("message", "Can not create new villa!");
-                } else {
-                    request.setAttribute("message", "New villa was created!");
-                }
-                dispatcher = "/view/service/createVilla.jsp";
-                break;
-            case 2:
-                standardRoom = request.getParameter("standardRoom");
-                descriptionOtherConvenience = request.getParameter("descriptionOtherConvenience");
-                numberOfFloors = Integer.parseInt(request.getParameter("numberOfFloors"));
-                House house = new House(name, area, cost, maxPeople, rentTypeId, facilityTypeId, standardRoom,
-                        descriptionOtherConvenience, numberOfFloors);
-                if (!facilityService.createHouse(house)) {
-                    request.setAttribute("message", "Can not create new house!");
-                } else {
-                    request.setAttribute("message", "New house was created!");
-                }
-                dispatcher = "/view/service/createHouse.jsp";
-                break;
-            case 3:
-                facilityFree = request.getParameter("facilityFree");
-                Room room = new Room(name, area, cost, maxPeople, rentTypeId, facilityTypeId, facilityFree);
-                if (!facilityService.createRoom(room)) {
-                    request.setAttribute("message", "Can not create new room!");
-                } else {
-                    request.setAttribute("message", "New room was created!");
-                }
-                dispatcher = "/view/service/createRoom.jsp";
-                break;
-            default:
-                dispatcher= "/view/service/list.jsp";
-                break;
+        String rentType = request.getParameter("rentType");
+        String facilityType = request.getParameter("selectFacilityType");
+        String facilityFree = request.getParameter("facilityFree");
+        String standardRoom = request.getParameter("standardRoom");
+        String descriptionOtherConvenience = request.getParameter("descriptionOtherConvenience");
+        Double poolArea = Double.valueOf(request.getParameter("poolArea"));
+        int numberOfFloors = Integer.parseInt(request.getParameter("numberOfFloors"));
+        createStatus = facilityService.create(new FacilityVirtual(name, area, cost, maxPeople, standardRoom, descriptionOtherConvenience, numberOfFloors, poolArea, facilityFree, rentType, facilityType));
+        if (!createStatus) {
+                request.setAttribute("message", "Can not create new facility!");
+        } else{
+            request.setAttribute("message", "New facility was created!");
         }
-
         try {
-            request.getRequestDispatcher(dispatcher).forward(request, response);
+            request.getRequestDispatcher("view/service/create.jsp").forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void searchByNameRentTypeCost(HttpServletRequest request, HttpServletResponse response) {
+        String name = request.getParameter("name");
+        String rentType = request.getParameter("rentType");
+        String cost = request.getParameter("cost");
+        List<FacilityVirtual> facilityList = facilityService.searchByNameRentTypeCost(name, rentType, cost);
+        if (facilityList.size() == 0) {
+            request.setAttribute("message", "There is no matched facility!");
+        }
+        try {
+            request.setAttribute("facilityList", facilityList);
+            request.getRequestDispatcher("/view/service/list.jsp").forward(request, response);
         } catch (ServletException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

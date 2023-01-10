@@ -7,5 +7,5 @@ public interface IIdListRepository {
     List<Integer> idList();
     List<String> typeNameList();
 
-    Map<String, Integer> typeId();
+    Map<String, Integer> typeIdMap();
 }

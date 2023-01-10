@@ -21,36 +21,51 @@
 <!--    Content-->
 <div class="row d-flex justify-content-center fw-bold fs-3">Facility Management</div>
 <div class="row d-flex justify-content-between">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <a href="/ServiceServlet">
             <button class="btn btn-outline-primary btn-sm" type="submit">Back to facility list</button>
         </a>
     </div>
-    <div class="col-md-3 dropdown">
-        <button class="btn btn-outline-info dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
+<%--    <div class="col-md-2 dropdown">--%>
+<%--        <button class="btn btn-outline-info dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown"--%>
+<%--                aria-expanded="false">--%>
+<%--            Create new--%>
+<%--        </button>--%>
+<%--        <ul class="dropdown-menu">--%>
+<%--            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=1">Villa</a></li>--%>
+<%--            <li>--%>
+<%--                <hr class="dropdown-divider">--%>
+<%--            </li>--%>
+<%--            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=2">House</a></li>--%>
+<%--            <li>--%>
+<%--                <hr class="dropdown-divider">--%>
+<%--            </li>--%>
+<%--            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=3">Room</a></li>--%>
+<%--        </ul>--%>
+<%--    </div>--%>
+    <div class="col-md-2">
+        <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#createFacility">
             Create new
         </button>
-        <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=1">Villa</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=2">House</a></li>
-            <li>
-                <hr class="dropdown-divider">
-            </li>
-            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=3">Room</a></li>
-        </ul>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-4">
         <c:if test="${requestScope['message'] != null}">
             <span class="text-bg-success text-warning">${requestScope['message']}</span>
         </c:if>
     </div>
+    <div class="col-md-4">
+        <div class="row">
+            <form action="/ServiceServlet?action=search" method="post">
+                <button class="btn btn-outline-info btn-sm col-md-2 px-0" type="submit">Search by</button>
+                <input class="col-md-3 form-control-sm px-0 py-0" name="name" placeholder="Name">
+                <input class="col-md-3 form-control-sm px-0 py-0" name="rentType" placeholder="Rent Type">
+                <input class="col-md-3 form-control-sm px-0 py-0" name="cost" placeholder="Cost">
+            </form>
+        </div>
+    </div>
 </div>
 
-<table class="table table-hover" id="tableCustomer">
+<table class="table table-hover" id="tableService">
     <thead>
     <tr class="text-center">
         <th>No.</th>
@@ -59,8 +74,8 @@
         <th>Area</th>
         <th>Cost</th>
         <th>Max people</th>
-        <th>Rent type ID</th>
-        <th>Facility Type ID</th>
+        <th>Rent type</th>
+        <th>Facility Type</th>
         <th>Standard Room</th>
         <th>Description Other convenience</th>
         <th>Pool Area</th>
@@ -73,50 +88,18 @@
     <c:forEach items="${facilityList}" var="facility" varStatus="status">
     <tr>
         <td>${status.count}</td>
-        <c:choose>
-        <c:when test="${facility.getFacilityTypeId() == 1}">
         <td>${facility.getId()}</td>
         <td>${facility.getName()}</td>
         <td>${facility.getArea()}</td>
         <td>${facility.getCost()}</td>
         <td>${facility.getMaxPeople()}</td>
-        <td>${facility.getRentTypeId()}</td>
-        <td>${facility.getFacilityTypeId()}</td>
+        <td>${facility.getRentType()}</td>
+        <td>${facility.getFacilityType()}</td>
         <td>${facility.getStandardRoom()}</td>
         <td>${facility.getDescriptionOtherConvenience()}</td>
         <td>${facility.getPoolArea()}</td>
         <td>${facility.getNumberOfFloors()}</td>
-        <td>-</td>
-        </c:when>
-        <c:when test="${facility.getFacilityTypeId() == 2}">
-        <td>${facility.getId()}</td>
-        <td>${facility.getName()}</td>
-        <td>${facility.getArea()}</td>
-        <td>${facility.getCost()}</td>
-        <td>${facility.getMaxPeople()}</td>
-        <td>${facility.getRentTypeId()}</td>
-        <td>${facility.getFacilityTypeId()}</td>
-        <td>${facility.getStandardRoom()}</td>
-        <td>${facility.getDescriptionOtherConvenience()}</td>
-        <td>-</td>
-        <td>${facility.getNumberOfFloors()}</td>
-        <td></td>
-        </c:when>
-        <c:otherwise>
-        <td>${facility.getId()}</td>
-        <td>${facility.getName()}</td>
-        <td>${facility.getArea()}</td>
-        <td>${facility.getCost()}</td>
-        <td>${facility.getMaxPeople()}</td>
-        <td>${facility.getRentTypeId()}</td>
-        <td>${facility.getFacilityTypeId()}</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
-        <td>-</td>
         <td>${facility.getFacilityFree()}</td>
-        </c:otherwise>
-        </c:choose>
         <td class="d-flex justify-content-between">
             <a href="/ServiceServlet?action=update&id=${facility.getId()}">
                 <button class="btn btn-outline-warning btn-sm" type="submit">Update</button>
@@ -154,7 +137,28 @@
                     <button type="submit" class="btn btn-sm btn-primary">Delete</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="createFacility" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mainCreate">Create new facility</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <%--      Link--%>
+            <form action="/ServiceServlet" method="get">
+                <div class="modal-body">
+                    <span>Do you want to create new facility? </span>
+                    <input type="hidden" name="action" value="create">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-sm btn-primary">Create</button></a>
+               </div>
+            </form>
         </div>
     </div>
 </div>

@@ -66,7 +66,7 @@ public class IdCustomerTypeRepository implements IIdListRepository {
     }
 
     @Override
-    public Map<String, Integer> typeId() {
+    public Map<String, Integer> typeIdMap() {
         Map<String, Integer> customerTypeId = new HashMap<>();
         Connection connection = getConnection();
         PreparedStatement pt;

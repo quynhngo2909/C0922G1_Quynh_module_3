@@ -21,6 +21,6 @@ public class IdFacilityTypeService implements IIdListService {
 
     @Override
     public Map<String, Integer> typeId() {
-        return facilityTypeRepository.typeId();
+        return facilityTypeRepository.typeIdMap();
     }
 }

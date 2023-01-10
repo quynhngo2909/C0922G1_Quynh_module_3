@@ -22,6 +22,14 @@ public abstract class Facility {
         this.facilityTypeId = facilityTypeId;
     }
 
+    public Facility(int id, String name, int area, double cost, int maxPeople) {
+        this.id = id;
+        this.name = name;
+        this.area = area;
+        this.cost = cost;
+        this.maxPeople = maxPeople;
+    }
+
     public Facility(String name, int area, double cost, int maxPeople, int rentTypeId, int facilityTypeId) {
         this.name = name;
         this.area = area;
@@ -29,6 +37,13 @@ public abstract class Facility {
         this.maxPeople = maxPeople;
         this.rentTypeId = rentTypeId;
         this.facilityTypeId = facilityTypeId;
+    }
+
+    public Facility(String name, int area, double cost, int maxPeople) {
+        this.name = name;
+        this.area = area;
+        this.cost = cost;
+        this.maxPeople = maxPeople;
     }
 
     public int getId() {

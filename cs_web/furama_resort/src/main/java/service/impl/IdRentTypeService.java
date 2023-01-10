@@ -22,6 +22,6 @@ public class IdRentTypeService implements IIdListService {
 
     @Override
     public Map<String, Integer> typeId() {
-        return rentTypeRepository.typeId();
+        return rentTypeRepository.typeIdMap();
     }
 }

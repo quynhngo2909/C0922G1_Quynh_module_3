@@ -21,6 +21,6 @@ public class IdEducationService implements IIdListService {
 
     @Override
     public Map<String, Integer> typeId() {
-        return educationRepository.typeId();
+        return educationRepository.typeIdMap();
     }
 }

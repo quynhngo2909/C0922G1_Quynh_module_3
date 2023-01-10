@@ -124,7 +124,6 @@
                     <button type="submit" class="btn btn-sm btn-primary">Delete</button>
                 </div>
             </form>
-
         </div>
     </div>
 </div>

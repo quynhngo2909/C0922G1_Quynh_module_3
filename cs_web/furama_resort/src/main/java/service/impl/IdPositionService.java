@@ -21,6 +21,6 @@ public class IdPositionService implements IIdListService {
 
     @Override
     public Map<String, Integer> typeId() {
-        return positionRepository.typeId();
+        return positionRepository.typeIdMap();
     }
 }

@@ -1,9 +1,6 @@
 package service.impl;
 
-import model.Facility;
-import model.House;
-import model.Room;
-import model.Villa;
+import model.*;
 import repository.IFacilityRepository;
 import repository.impl.FacilityRepository;
 import service.IFacilityService;
@@ -13,8 +10,18 @@ import java.util.List;
 public class FacilityService implements IFacilityService {
     private IFacilityRepository facilityRepository = new FacilityRepository();
     @Override
-    public List<Facility> facilityList() {
+    public List<FacilityVirtual> facilityList() {
         return facilityRepository.facilityList();
+    }
+
+    @Override
+    public List<FacilityVirtual> searchByNameRentTypeCost(String strName, String strType, String strCost) {
+        return facilityRepository.searchByNameRentTypeCost(strName, strType, strCost);
+    }
+
+    @Override
+    public boolean create(FacilityVirtual facility) {
+        return facilityRepository.create(facility);
     }
 
     @Override
@@ -44,6 +51,6 @@ public class FacilityService implements IFacilityService {
 
     @Override
     public boolean delete(int id) {
-        return false;
+        return facilityRepository.delete(id);
     }
 }

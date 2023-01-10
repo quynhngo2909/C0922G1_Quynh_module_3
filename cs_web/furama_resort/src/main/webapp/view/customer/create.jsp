@@ -50,7 +50,7 @@
     </div>
 </div>
 <div class="align-content-center">
-    <form action="/CustomerServlet?action=create" method="post">
+    <form action="/CustomerServlet?action=create" method="post" class="form-control">
         <fieldset>
             <legend class="justify-content-center">Create new customer: Customer's information</legend>
             <table class="table table-hover justify-content-start">
@@ -154,6 +154,6 @@
         })
     });
 </script>
-<script src="/view/customer/validationCustomer.js"></script>
+<script src="/view/validation.js"></script>
 </html>
 

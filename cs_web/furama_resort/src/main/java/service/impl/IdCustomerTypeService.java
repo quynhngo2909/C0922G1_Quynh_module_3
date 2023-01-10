@@ -22,6 +22,6 @@ public class IdCustomerTypeService implements IIdListService {
 
     @Override
     public Map<String, Integer> typeId() {
-        return customerTypeRepository.typeId();
+        return customerTypeRepository.typeIdMap();
     }
 }

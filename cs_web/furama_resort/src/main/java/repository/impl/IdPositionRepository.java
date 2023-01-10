@@ -68,7 +68,7 @@ public class IdPositionRepository implements IIdListRepository {
     }
 
     @Override
-    public Map<String, Integer> typeId() {
+    public Map<String, Integer> typeIdMap() {
         Map<String, Integer> positionTypeId = new HashMap<>();
         Connection connection = getConnection();
         PreparedStatement pt;

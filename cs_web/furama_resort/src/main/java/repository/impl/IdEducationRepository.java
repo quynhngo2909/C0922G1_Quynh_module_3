@@ -67,7 +67,7 @@ public class IdEducationRepository implements IIdListRepository {
     }
 
     @Override
-    public Map<String, Integer> typeId() {
+    public Map<String, Integer> typeIdMap() {
         Map<String, Integer> educationTypeId = new HashMap<>();
         Connection connection = getConnection();
         PreparedStatement pt;
