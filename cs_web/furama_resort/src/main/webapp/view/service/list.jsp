@@ -168,4 +168,13 @@
         document.getElementById("deleteName").innerText = name;
     }
 </script>
+<script>
+    $(document).ready(function() {
+        $('#tableService').dataTable( {
+            "dom": 'lrtip',
+            "lengthChange": false,
+            "pageLength": 5
+        } );
+    } );
+</script>
 </html>
