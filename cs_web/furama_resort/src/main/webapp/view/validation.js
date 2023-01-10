@@ -26,3 +26,20 @@ function checkServiceName(name) {
         document.getElementById("saveButton").disabled = false;
     }
 }
+
+// 3.	Số điện thoại phải đúng định dạng 090xxxxxxx hoặc 091xxxxxxx hoặc (84)+90xxxxxxx hoặc (84)+91xxxxxxx.
+function checkPhoneNumber(phoneNumber) {
+    let regex= /^(090([0-9]{7})|091([0-9]{7}))$/;
+    let checkReg = regex.test(phoneNumber);
+    if(!checkReg){
+        document.getElementById("checkPhoneNumber").hidden = true;
+        document.getElementById("errorPhoneNumber").innerHTML = "Invalid phone number. Phone number must in format: " +
+            "090xxxxxxx or 091xxxxxxx or (84)+90xxxxxxx or (84)+91xxxxxxx.";
+    } else {
+        document.getElementById("checkPhoneNumber").hidden = false;
+        document.getElementById("errorPhoneNumber").innerHTML = "";
+        document.getElementById("saveButton").disabled = false;
+
+    }
+
+}

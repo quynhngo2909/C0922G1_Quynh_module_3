@@ -76,7 +76,7 @@
                 <a class="nav-link text-white fw-bold" href="/HomeServlet?action=service">SERVICE</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white fw-bold" href="/HomeServlet?action=contact">CONTRACT</a>
+                <a class="nav-link text-white fw-bold" href="/HomeServlet?action=contract">CONTRACT</a>
             </li>
         </ul>
     </div>

@@ -24,11 +24,20 @@ public class HomeServlet extends HttpServlet {
             case "service":
                 getServicePage(request, response);
                 break;
-            case "contact":
+            case "contract":
+                getContractPage(request, response);
                 break;
             default:
                 getHomePage(request, response);
                 break;
+        }
+    }
+
+    private void getContractPage(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            response.sendRedirect("ContractServlet");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

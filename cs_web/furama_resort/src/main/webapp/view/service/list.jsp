@@ -154,15 +154,6 @@
 <script src="datatables/js/jquery.dataTables.js"></script>
 <script src="datatables/js/dataTables.bootstrap5.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#tableCustomer').dataTable({
-            "dom": 'lrtip',
-            "lengthChange": false,
-            "pageLength": 5
-        })
-    });
-</script>
-<script>
     function infoDelete(id, name) {
         document.getElementById("deleteId").value = id;
         document.getElementById("deleteName").innerText = name;
