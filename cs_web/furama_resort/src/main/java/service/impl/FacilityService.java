@@ -25,28 +25,13 @@ public class FacilityService implements IFacilityService {
     }
 
     @Override
-    public Facility findById(int id) {
-        return null;
+    public FacilityVirtual findById(int id) {
+        return facilityRepository.findById(id);
     }
 
     @Override
-    public boolean createVilla(Villa villa) {
-        return facilityRepository.createVilla(villa);
-    }
-
-    @Override
-    public boolean createHouse(House house) {
-        return facilityRepository.createHouse(house);
-    }
-
-    @Override
-    public boolean createRoom(Room room) {
-        return facilityRepository.createRoom(room);
-    }
-
-    @Override
-    public boolean update(int id, Facility facility) {
-        return false;
+    public boolean update(int id, FacilityVirtual facility) {
+        return facilityRepository.update(id, facility);
     }
 
     @Override

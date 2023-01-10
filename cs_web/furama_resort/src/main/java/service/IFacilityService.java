@@ -10,11 +10,9 @@ public interface IFacilityService {
     List<FacilityVirtual> searchByNameRentTypeCost(String strName, String strType, String strCost);
     boolean create(FacilityVirtual facility);
 
-    Facility findById(int id);
-    boolean createVilla(Villa villa);
-    boolean createHouse(House house);
-    boolean createRoom(Room room);
-    boolean update(int id, Facility facility);
+    FacilityVirtual findById(int id);
+
+    boolean update(int id, FacilityVirtual facility);
     boolean delete(int id);
 
 }

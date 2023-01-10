@@ -49,38 +49,40 @@
 </div>
 <br>
 <div class="align-content-center">
-    <form action="/ServiceServlet?action=create" method="post">
-        <label for="selectFacilityType">Create Facility:</label>
-        <select id="selectFacilityType" name="selectFacilityType">
-            <option value="">Please select facility type</option>
-            <c:forEach items="${facilityTypeList}" var="facilityType">
-                <option value="${facilityType}">${facilityType}</option>
-            </c:forEach>
-        </select>
+    <form action="/ServiceServlet?action=update" method="post">
+        <fieldset>
+            <legend>Update facility</legend>
         <table class="table table-hover">
+            <tr hidden class="commonAttribute">
+                <td><label for="id">ID</label></td>
+                <td><input name="id" id="id" type="text" readonly="readonly" value="${facility.getId()}">
+                </td>
+                <td></td>
+                <td></td>
+            </tr>
             <tr class="commonAttribute">
                 <td><label for="name">Name</label></td>
-                <td><input name="name" id="name" type="text" required="required" placeholder="Input name">
+                <td><input name="name" id="name" type="text" required="required" value="${facility.getName()}">
                 </td>
                 <td hidden><i class="bi bi-check" id="checkName"></i></td>
                 <td><span id="errorName"></span></td>
             </tr>
             <tr class="commonAttribute">
                 <td><label for="area">Area</label></td>
-                <td><input name="area" id="area" type="text" required="required"></td>
+                <td><input name="area" id="area" type="text" required="required" value="${facility.getArea()}"></td>
                 <td hidden><i class="bi bi-check" id="checkArea"></i></td>
                 <td hidden><span id="errorArea"></span></td>
             </tr>
             <tr class="commonAttribute">
                 <td><label for="cost">Cost</label></td>
-                <td><input name="cost" id="cost" type="text" required="required"></td>
+                <td><input name="cost" id="cost" type="text" required="required" value="${facility.getCost()}"></td>
                 <td hidden><i class="bi bi-check" id="checkCost"></i></td>
                 <td hidden><span id="errorCost"></span></td>
             </tr>
             <tr class="commonAttribute">
                 <td><label for="maxPeople">Max people</label></td>
                 <td>
-                    <input name="maxPeople" id="maxPeople" type="text" required="required">
+                    <input name="maxPeople" id="maxPeople" type="text" required="required" value="${facility.getMaxPeople()}">
                 </td>
                 <td hidden><i class="bi bi-check" id="checkMaxPeople"></i></td>
                 <td hidden><span id="errorMaxPeople"></span></td>
@@ -90,7 +92,31 @@
                 <td>
                     <select name="rentType" id="rentType">
                         <c:forEach items="${rentTypeList}" var="rentType">
-                            <option value="${rentType}">${rentType}</option>
+                            <c:choose>
+                                <c:when test="${rentType} == ${facility.getRentType()}">
+                                    <option selected="selected" value="${rentType}">${rentType}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${rentType}">${rentType}</option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+            <tr class="commonAttribute">
+                <td><label for="facilityType">Facility Type</label></td>
+                <td>
+                    <select name="facilityType" id="facilityType">
+                        <c:forEach items="${facilityTypeList}" var="facilityType">
+                            <c:choose>
+                                <c:when test="${facilityType} == ${facility.getFacilityType()}">
+                                    <option selected="selected" value="${facilityType}">${facilityType}</option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${facilityType}">${facilityType}</option>
+                                </c:otherwise>
+                            </c:choose>
                         </c:forEach>
                     </select>
                 </td>
@@ -98,7 +124,8 @@
             <tr class="commonAttribute">
                 <td><label for="standardRoom">Standard Room</label></td>
                 <td>
-                    <input name="standardRoom" id="standardRoom" type="text" required="required">
+                    <input name="standardRoom" id="standardRoom" type="text" required="required"
+                           value="${facility.getStandardRoom()}">
                 </td>
                 <td hidden><i class="bi bi-check" id="checkStandardRoom"></i></td>
                 <td hidden><span id="errorStandardRoom"></span></td>
@@ -107,7 +134,7 @@
                 <td><label for="descriptionOtherConvenience">Other Convenience</label></td>
                 <td>
                     <input name="descriptionOtherConvenience" id="descriptionOtherConvenience" type="text"
-                           required="required">
+                           required="required" value="${facility.getDescriptionOtherConvenience()}">
                 </td>
                 <td hidden><i class="bi bi-check" id="checkOtherConvenience"></i></td>
                 <td hidden><span id="errorOtherConvenience"></span></td>
@@ -115,7 +142,7 @@
             <tr class="villaAttribute">
                 <td><label for="poolArea">Pool Area</label></td>
                 <td>
-                    <input name="poolArea" id="poolArea" type="text">
+                    <input name="poolArea" id="poolArea" type="text" value="${facility.getPoolArea()}">
                 </td>
                 <td hidden><i class="bi bi-check" id="checkPoolArea"></i></td>
                 <td hidden><span id="errorPoolArea"></span></td>
@@ -123,7 +150,7 @@
             <tr class="villaHouseAttribute">
                 <td><label for="numberOfFloors">Number Of Floors </label></td>
                 <td>
-                    <input name="numberOfFloors" id="numberOfFloors" type="text">
+                    <input name="numberOfFloors" id="numberOfFloors" type="text" value="${facility.getNumberOfFloors()}">
                 </td>
                 <td hidden><i class="bi bi-check" id="checkNumberOfFloors"></i></td>
                 <td hidden><span id="errorNumberOfFloors"></span></td>
@@ -131,7 +158,7 @@
             <tr class="roomAttribute" >
                 <td><label for="facilityFree">Facility Free </label></td>
                 <td>
-                    <input name="facilityFree" id="facilityFree" type="text" value="">
+                    <input name="facilityFree" id="facilityFree" type="text" value="${facility.getFacilityFree()}">
                 </td>
                 <td hidden><i class="bi bi-check" id="checkFacilityFree"></i></td>
                 <td hidden><span id="errorFacilityFree"></span></td>
@@ -146,6 +173,7 @@
                 <td></td>
             </tr>
         </table>
+        </fieldset>
     </form>
 </div>
 

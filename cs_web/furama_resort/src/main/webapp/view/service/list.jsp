@@ -26,23 +26,6 @@
             <button class="btn btn-outline-primary btn-sm" type="submit">Back to facility list</button>
         </a>
     </div>
-<%--    <div class="col-md-2 dropdown">--%>
-<%--        <button class="btn btn-outline-info dropdown-toggle btn-sm" type="button" data-bs-toggle="dropdown"--%>
-<%--                aria-expanded="false">--%>
-<%--            Create new--%>
-<%--        </button>--%>
-<%--        <ul class="dropdown-menu">--%>
-<%--            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=1">Villa</a></li>--%>
-<%--            <li>--%>
-<%--                <hr class="dropdown-divider">--%>
-<%--            </li>--%>
-<%--            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=2">House</a></li>--%>
-<%--            <li>--%>
-<%--                <hr class="dropdown-divider">--%>
-<%--            </li>--%>
-<%--            <li><a class="dropdown-item" href="/ServiceServlet?action=create&id=3">Room</a></li>--%>
-<%--        </ul>--%>
-<%--    </div>--%>
     <div class="col-md-2">
         <button class="btn btn-outline-info btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#createFacility">
             Create new

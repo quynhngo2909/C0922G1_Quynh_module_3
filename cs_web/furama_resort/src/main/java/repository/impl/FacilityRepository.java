@@ -7,7 +7,6 @@ import repository.IIdListRepository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BinaryOperator;
 
 public class FacilityRepository implements IFacilityRepository {
     private IIdListRepository idFacilityType = new IdFacilityTypeRepository();
@@ -28,7 +27,15 @@ public class FacilityRepository implements IFacilityRepository {
             "f.facility_free from facility f left join facility_type ft on f.facility_type_id = ft.id " +
             "left join rent_type rt on f.rent_type_id = rt.id where f.name like ? and rt.name like ? and f.cost like ?";
 
+    private static String FIND_FACILITY_BY_ID ="select f.id, f.name, f.area, f.cost, f.max_people," +
+            " rt.name, ft.name, f.standard_room, f.description_other_convenience, f.pool_area, f.number_of_floors, " +
+            "f.facility_free from facility f left join facility_type ft on f.facility_type_id = ft.id " +
+            "left join rent_type rt on f.rent_type_id = rt.id where f.id = ?";
+
     private static String DELETE_BY_ID = "delete from facility where id=?";
+    private static String UPDATE_FACILITY = "update facility f set f.name = ?, f.area = ?, f.cost = ?, f.max_people = ?, " +
+            "f.rent_type_id = ?, f.facility_type_id= ?, f.standard_room= ?, f.description_other_convenience = ?," +
+            " f.pool_area = ?, f.number_of_floors = ?, f.facility_free= ? where f.id = ?";
     private Connection getConnection() {
         Connection connection = null;
         try {
@@ -79,9 +86,9 @@ public class FacilityRepository implements IFacilityRepository {
         Connection connection = getConnection();
         try {
             PreparedStatement pt = connection.prepareStatement(SEARCH_FACILITY_BY_NAME_RENT_TYPE_COST);
-            pt.setString(1, strName);
-            pt.setString(2, strType);
-            pt.setString(3, strCost);
+            pt.setString(1, "%" + strName + "%");
+            pt.setString(2,"%" + strType + "%");
+            pt.setString(3,"%" + strCost + "%");
             ResultSet rs = pt.executeQuery();
             while (rs.next()) {
                 int id = rs.getInt(1);
@@ -133,92 +140,58 @@ public class FacilityRepository implements IFacilityRepository {
     }
 
     @Override
-    public Facility findById(int id) {
-        return null;
-    }
-
-    @Override
-    public boolean createVilla(Villa villa) {
-        boolean createStatus = false;
+    public FacilityVirtual findById(int id) {
+        FacilityVirtual facility = null;
         Connection connection = getConnection();
-        PreparedStatement pt;
         try {
-            pt = connection.prepareStatement(INSERT_NEW_FACILITY);
-            pt.setString(1, villa.getName());
-            pt.setInt(2, villa.getArea());
-            pt.setDouble(3, villa.getCost());
-            pt.setInt(4, villa.getMaxPeople());
-            pt.setInt(5, villa.getRentTypeId());
-            pt.setInt(6, villa.getFacilityTypeId());
-            pt.setString(7, villa.getStandardRoom());
-            pt.setString(8, villa.getDescriptionOtherConvenience());
-            pt.setDouble(9, villa.getPoolArea());
-            pt.setInt(10, villa.getNumberOfFloors());
-            pt.setString(11, "-");
-            createStatus = pt.executeUpdate() > 0;
+            PreparedStatement pt = connection.prepareStatement(FIND_FACILITY_BY_ID);
+            pt.setInt(1, id);
+            ResultSet rs = pt.executeQuery();
+            while (rs.next()) {
+                int facilityId = rs.getInt(1);
+                String name = rs.getString(2);
+                int area = rs.getInt(3);
+                double cost = rs.getDouble(4);
+                int maxPeople = rs.getInt(5);
+                String rentType = rs.getString(6);
+                String facilityType = rs.getString(7);
+                String standardRoom = rs.getString(8);
+                String descriptionOtherConvenience = rs.getString(9);
+                double poolArea = rs.getDouble(10);
+                int numberOfFloors = rs.getInt(11);
+                String facilityFree = rs.getString(12);
+                facility = new FacilityVirtual(id, name, area, cost, maxPeople, standardRoom,
+                        descriptionOtherConvenience, numberOfFloors, poolArea, facilityFree,rentType, facilityType);
+            }
             connection.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return createStatus;
+        return facility;
     }
-
     @Override
-    public boolean createHouse(House house) {
-        boolean createStatus = false;
+    public boolean update(int id, FacilityVirtual facility) {
+        boolean updateStatus = false;
         Connection connection = getConnection();
-        PreparedStatement pt;
         try {
-            pt = connection.prepareStatement(INSERT_NEW_FACILITY);
-            pt.setString(1, house.getName());
-            pt.setInt(2, house.getArea());
-            pt.setDouble(3, house.getCost());
-            pt.setInt(4, house.getMaxPeople());
-            pt.setInt(5, house.getRentTypeId());
-            pt.setInt(6, house.getFacilityTypeId());
-            pt.setString(7, house.getStandardRoom());
-            pt.setString(8, house.getDescriptionOtherConvenience());
-            pt.setDouble(9, 0);
-            pt.setInt(10, house.getNumberOfFloors());
-            pt.setString(11, "-");
-            createStatus = pt.executeUpdate() > 0;
-            connection.close();
+            PreparedStatement pt = connection.prepareStatement(UPDATE_FACILITY);
+            pt.setString(1, facility.getName());
+            pt.setInt(2, facility.getArea());
+            pt.setDouble(3, facility.getCost());
+            pt.setInt(4, facility.getMaxPeople());
+            pt.setInt(5, idRentType.typeIdMap().get(facility.getRentType()));
+            pt.setInt(6, idFacilityType.typeIdMap().get(facility.getFacilityType()));
+            pt.setString(7, facility.getStandardRoom());
+            pt.setString(8, facility.getDescriptionOtherConvenience());
+            pt.setDouble(9, facility.getPoolArea());
+            pt.setInt(10, facility.getNumberOfFloors());
+            pt.setString(11, facility.getFacilityType());
+            pt.setInt(12, id);
+            updateStatus = pt.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return createStatus;
-    }
-
-    @Override
-    public boolean createRoom(Room room) {
-        boolean createStatus = false;
-        Connection connection = getConnection();
-        PreparedStatement pt;
-        try {
-            pt = connection.prepareStatement(INSERT_NEW_FACILITY);
-            pt.setString(1, room.getName());
-            pt.setInt(2, room.getArea());
-            pt.setDouble(3, room.getCost());
-            pt.setInt(4, room.getMaxPeople());
-            pt.setInt(5, room.getRentTypeId());
-            pt.setInt(6, room.getFacilityTypeId());
-            pt.setString(7, "-");
-            pt.setString(8,"-");
-            pt.setDouble(9, 0);
-            pt.setInt(10, 0);
-            pt.setString(11, room.getFacilityFree());
-            createStatus = pt.executeUpdate() > 0;
-            connection.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return createStatus;
-    }
-
-
-    @Override
-    public boolean update(int id, Facility facility) {
-        return false;
+        return updateStatus;
     }
 
     @Override

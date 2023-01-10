@@ -34,10 +34,31 @@ public class ServiceServlet extends HttpServlet {
                 getRentTypeFacilityType(request, response);
                 break;
             case "update":
+                getUpdateForm(request, response);
                 break;
             default:
                 getFacilityList(request, response);
                 break;
+        }
+    }
+
+    private void getUpdateForm(HttpServletRequest request, HttpServletResponse response) {
+        int id = Integer.parseInt(request.getParameter("id"));
+        FacilityVirtual facility = facilityService.findById(id);
+        List<String> rentTypeList = idRentTypeService.typeNameList();
+        List<String> facilityTypeList = idFacilityTypeService.typeNameList();
+        request.setAttribute("facility", facility);
+        if(facility == null) {
+            request.setAttribute("message", "The facility is not exist!");
+        }
+        try {
+            request.setAttribute("rentTypeList", rentTypeList);
+            request.setAttribute("facilityTypeList", facilityTypeList);
+            request.getRequestDispatcher("/view/service/update.jsp").forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -112,6 +133,7 @@ public class ServiceServlet extends HttpServlet {
                 createFacility(request, response);
                 break;
             case "update":
+                updateFacility(request, response);
                 break;
             case "search":
                 searchByNameRentTypeCost(request, response);
@@ -122,6 +144,35 @@ public class ServiceServlet extends HttpServlet {
             default:
                 getFacilityList(request, response);
                 break;
+        }
+    }
+
+    private void updateFacility(HttpServletRequest request, HttpServletResponse response) {
+        boolean updateStatus = false;
+        int id = Integer.parseInt(request.getParameter("id"));
+        String name = request.getParameter("name");
+        int area = Integer.parseInt(request.getParameter("area"));
+        Double cost = Double.valueOf(request.getParameter("cost"));
+        int maxPeople = Integer.parseInt(request.getParameter("maxPeople"));
+        String rentType = request.getParameter("rentType");
+        String facilityType = request.getParameter("facilityType");
+        String facilityFree = request.getParameter("facilityFree");
+        String standardRoom = request.getParameter("standardRoom");
+        String descriptionOtherConvenience = request.getParameter("descriptionOtherConvenience");
+        Double poolArea = Double.valueOf(request.getParameter("poolArea"));
+        int numberOfFloors = Integer.parseInt(request.getParameter("numberOfFloors"));
+        updateStatus = facilityService.update(id, new FacilityVirtual(name, area, cost, maxPeople, standardRoom, descriptionOtherConvenience, numberOfFloors, poolArea, facilityFree, rentType, facilityType));
+        if (!updateStatus) {
+            request.setAttribute("message", "Can not update the facility!");
+        } else{
+            request.setAttribute("message", "The facility was updated!");
+        }
+        try {
+            request.getRequestDispatcher("view/service/create.jsp").forward(request, response);
+        } catch (ServletException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
